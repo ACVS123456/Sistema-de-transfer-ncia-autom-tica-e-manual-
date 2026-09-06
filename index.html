@@ -200,9 +200,7 @@ button:hover{filter:brightness(1.18)}
     height:800px;
 }
 
-/* ===============================
-   FONTES
-================================ */
+/* FONTES */
 
 .source{
     position:absolute;
@@ -241,9 +239,7 @@ button:hover{filter:brightness(1.18)}
 .gmg1{left:30px;top:290px}
 .gmg2{left:30px;top:520px}
 
-/* ===============================
-   QTA
-================================ */
+/* QTA */
 
 .qta{
     position:absolute;
@@ -297,9 +293,7 @@ button:hover{filter:brightness(1.18)}
     box-shadow:0 0 20px #ff0000;
 }
 
-/* ===============================
-   CARGAS
-================================ */
+/* CARGAS */
 
 .cargas{
     position:absolute;
@@ -329,9 +323,7 @@ button:hover{filter:brightness(1.18)}
 
 .cargas h2{margin:0 0 10px}
 
-/* ===============================
-   LINHAS PRINCIPAIS
-================================ */
+/* LINHAS */
 
 .line{
     position:absolute;
@@ -375,9 +367,7 @@ button:hover{filter:brightness(1.18)}
     width:240px;
 }
 
-/* ===============================
-   CAMINHO HORIZONTAL BYPASS
-================================ */
+/* BYPASS */
 
 .lineBypass{
     position:absolute;
@@ -402,9 +392,6 @@ button:hover{filter:brightness(1.18)}
     box-shadow:0 0 15px #f59e0b;
 }
 
-/* conexão vertical da fonte selecionada
-   até o caminho horizontal */
-
 .bypassFeed{
     position:absolute;
     left:465px;
@@ -420,9 +407,7 @@ button:hover{filter:brightness(1.18)}
     box-shadow:0 0 15px #22c55e;
 }
 
-/* ===============================
-   LINHAS VERTICAIS
-================================ */
+/* VERTICAIS */
 
 .vertical1,.vertical2{
     position:absolute;
@@ -447,9 +432,7 @@ button:hover{filter:brightness(1.18)}
     box-shadow:0 0 15px rgba(34,197,94,.9);
 }
 
-/* ===============================
-   DISJUNTORES
-================================ */
+/* DISJUNTORES */
 
 .breaker{
     position:absolute;
@@ -494,9 +477,7 @@ button:hover{filter:brightness(1.18)}
 .djg2{left:285px;top:532px}
 .dju{left:805px;top:300px}
 
-/* ===============================
-   BYPASS VISUAL
-================================ */
+/* BYPASS VISUAL */
 
 .bypass{
     position:absolute;
@@ -537,13 +518,7 @@ button:hover{filter:brightness(1.18)}
     opacity:.85;
 }
 
-.bypassCut{
-    display:none;
-}
-
-/* ===============================
-   CONTROLES DISJUNTORES
-================================ */
+/* CONTROLE DISJUNTORES */
 
 .breaker-controls{
     margin-top:15px;
@@ -581,9 +556,7 @@ button:hover{filter:brightness(1.18)}
 
 .cmd-row button{font-size:11px}
 
-/* ===============================
-   PAINEL BYPASS
-================================ */
+/* BYPASS PANEL */
 
 .bypass-panel{
     margin-top:15px;
@@ -622,9 +595,7 @@ button:hover{filter:brightness(1.18)}
     font-size:12px;
 }
 
-/* ===============================
-   INFERIOR
-================================ */
+/* INFERIOR */
 
 .bottom-grid{
     display:grid;
@@ -650,6 +621,7 @@ button:hover{filter:brightness(1.18)}
 
 .permission.ok{border-color:#166534}
 .permission.bad{border-color:#991b1b;color:#f87171}
+
 .permission.fatal{
     border-color:#ff0000;
     color:#ff3333;
@@ -809,10 +781,6 @@ button:hover{filter:brightness(1.18)}
 
 <body>
 
-<!-- =====================================================
-     ERRO FATAL
-===================================================== -->
-
 <div id="fatalOverlay">
 
     <div class="fatal-box">
@@ -840,10 +808,6 @@ button:hover{filter:brightness(1.18)}
 
 </div>
 
-<!-- =====================================================
-     CABEÇALHO
-===================================================== -->
-
 <header>
 
 <h1>
@@ -857,10 +821,6 @@ REDE + GMG1 + GMG2 • BYPASS-ISOLATION • AUTO/MANUAL • EMERGÊNCIA • REST
 </header>
 
 <div class="container">
-
-<!-- =====================================================
-     STATUS
-===================================================== -->
 
 <div class="status-grid">
 
@@ -877,7 +837,6 @@ REDE
 
 </div>
 
-
 <div class="status">
 
 <div class="status-title">
@@ -886,13 +845,10 @@ REDE
 
 <div id="redeStatus"
      class="status-value ok">
-
 NORMAL — TENSÃO PRESENTE
-
 </div>
 
 </div>
-
 
 <div class="status">
 
@@ -902,13 +858,10 @@ GMG1
 
 <div id="gmg1Status"
      class="status-value warn">
-
 STANDBY
-
 </div>
 
 </div>
-
 
 <div class="status">
 
@@ -918,13 +871,10 @@ GMG2
 
 <div id="gmg2Status"
      class="status-value warn">
-
 STANDBY
-
 </div>
 
 </div>
-
 
 <div class="status">
 
@@ -934,22 +884,14 @@ Modo
 
 <div id="modoStatus"
      class="status-value info">
-
 AUTOMÁTICO
-
 </div>
 
 </div>
 
 </div>
-
-<!-- =====================================================
-     CONTROLES
-===================================================== -->
 
 <div class="controls">
-
-<!-- REDE -->
 
 <div class="card">
 
@@ -970,9 +912,6 @@ RESTABELECER REDE
 </button>
 
 </div>
-
-
-<!-- GMG1 -->
 
 <div class="card">
 
@@ -1008,9 +947,6 @@ TRANSFERIR GMG1
 
 </div>
 
-
-<!-- GMG2 -->
-
 <div class="card">
 
 <h2>⚙️ GMG2</h2>
@@ -1044,9 +980,6 @@ TRANSFERIR GMG2
 </button>
 
 </div>
-
-
-<!-- SISTEMA -->
 
 <div class="card">
 
@@ -1089,9 +1022,6 @@ AUTO / MANUAL
 
 </div>
 
-
-<!-- CONTROLE -->
-
 <div class="card">
 
 <h2>🔄 CONTROLE</h2>
@@ -1128,64 +1058,37 @@ SEQUÊNCIA: MONITORAMENTO NORMAL
 
 </div>
 
-<!-- =====================================================
-     DIAGRAMA
-===================================================== -->
-
 <div class="diagram-card">
 
 <div class="diagram-title">
-
 DIAGRAMA DE POTÊNCIA E COMANDO
-
 </div>
 
 <div class="diagram">
 
-<!-- LINHAS FONTES -->
-
 <div id="lineRede"
-     class="line lineRede">
-</div>
+     class="line lineRede"></div>
 
 <div id="lineGMG1"
-     class="line lineGMG1">
-</div>
+     class="line lineGMG1"></div>
 
 <div id="lineGMG2"
-     class="line lineGMG2">
-</div>
-
-<!-- SAÍDA QTA -->
+     class="line lineGMG2"></div>
 
 <div id="lineOut"
-     class="line lineOut">
-</div>
-
-
-<!-- CAMINHO HORIZONTAL BYPASS -->
+     class="line lineOut"></div>
 
 <div id="lineBypass"
-     class="lineBypass">
-</div>
+     class="lineBypass"></div>
 
 <div id="bypassFeed"
-     class="bypassFeed">
-</div>
-
-
-<!-- VERTICAIS -->
+     class="bypassFeed"></div>
 
 <div id="vertical1"
-     class="vertical1">
-</div>
+     class="vertical1"></div>
 
 <div id="vertical2"
-     class="vertical2">
-</div>
-
-
-<!-- REDE -->
+     class="vertical2"></div>
 
 <div id="sourceRede"
      class="source rede">
@@ -1194,21 +1097,14 @@ DIAGRAMA DE POTÊNCIA E COMANDO
 
 <div id="redeFonte"
      class="source-status ok">
-
 NORMAL — TENSÃO PRESENTE
-
 </div>
 
 <div class="generator-state">
-
 FONTE DA CONCESSIONÁRIA
-
 </div>
 
 </div>
-
-
-<!-- GMG1 -->
 
 <div id="sourceGMG1"
      class="source gmg1">
@@ -1217,22 +1113,15 @@ FONTE DA CONCESSIONÁRIA
 
 <div id="gmg1Fonte"
      class="source-status">
-
 STANDBY
-
 </div>
 
 <div id="gmg1GenState"
      class="generator-state">
-
 MOTOR PARADO
-
 </div>
 
 </div>
-
-
-<!-- GMG2 -->
 
 <div id="sourceGMG2"
      class="source gmg2">
@@ -1241,82 +1130,54 @@ MOTOR PARADO
 
 <div id="gmg2Fonte"
      class="source-status">
-
 STANDBY
-
 </div>
 
 <div id="gmg2GenState"
      class="generator-state">
-
 MOTOR PARADO
-
 </div>
 
 </div>
-
-
-<!-- DJREDE -->
 
 <div id="djrede"
      class="breaker djrede">
 
 <span class="lamp"></span>
-
 DJREDE
-
 <br>
 
 <span class="breaker-state">
-
 FECHADO
-
 </span>
 
 </div>
-
-
-<!-- DJG1 -->
 
 <div id="djg1"
      class="breaker djg1">
 
 <span class="lamp"></span>
-
 DJG1
-
 <br>
 
 <span class="breaker-state">
-
 ABERTO
-
 </span>
 
 </div>
-
-
-<!-- DJG2 -->
 
 <div id="djg2"
      class="breaker djg2">
 
 <span class="lamp"></span>
-
 DJG2
-
 <br>
 
 <span class="breaker-state">
-
 ABERTO
-
 </span>
 
 </div>
-
-
-<!-- QTA -->
 
 <div id="qta"
      class="qta">
@@ -1332,35 +1193,23 @@ QUADRO DE TRANSFERÊNCIA AUTOMÁTICA
 </div>
 
 <small id="qtaEstado">
-
 REDE ALIMENTANDO
-
 </small>
 
 </div>
-
-
-<!-- DJU -->
 
 <div id="dju"
      class="breaker dju">
 
 <span class="lamp"></span>
-
 DJU
-
 <br>
 
 <span class="breaker-state">
-
 FECHADO
-
 </span>
 
 </div>
-
-
-<!-- CARGAS -->
 
 <div id="cargas"
      class="cargas">
@@ -1369,29 +1218,20 @@ FECHADO
 
 <div id="cargaStatus"
      class="source-status ok">
-
 ALIMENTADA
-
 </div>
 
 </div>
-
-
-<!-- BYPASS -->
 
 <div id="bypass"
      class="bypass open">
 
 <span id="bypassSignal">
-
 BYPASS DESATIVADO
-
 </span>
 
 <small id="bypassPath">
-
 CAMINHO HORIZONTAL ISOLADO
-
 </small>
 
 </div>
@@ -1399,10 +1239,6 @@ CAMINHO HORIZONTAL ISOLADO
 </div>
 
 </div>
-
-<!-- =====================================================
-     CONTROLE INDIVIDUAL
-===================================================== -->
 
 <div class="card"
      style="margin-top:15px">
@@ -1413,41 +1249,30 @@ CAMINHO HORIZONTAL ISOLADO
 
 <div class="breaker-controls">
 
-<!-- DJREDE -->
-
 <div class="breaker-control">
 
 <h3>DJREDE</h3>
 
 <div id="cmdStateRede"
      class="breaker-control-state">
-
 FECHADO
-
 </div>
 
 <div class="cmd-row">
 
 <button class="btn-green"
         onclick="comandarDisjuntor('DJREDE',true)">
-
 FECHAR
-
 </button>
 
 <button class="btn-red"
         onclick="comandarDisjuntor('DJREDE',false)">
-
 ABRIR
-
 </button>
 
 </div>
 
 </div>
-
-
-<!-- DJG1 -->
 
 <div class="breaker-control">
 
@@ -1455,33 +1280,24 @@ ABRIR
 
 <div id="cmdStateG1"
      class="breaker-control-state">
-
 ABERTO
-
 </div>
 
 <div class="cmd-row">
 
 <button class="btn-green"
         onclick="comandarDisjuntor('DJG1',true)">
-
 FECHAR
-
 </button>
 
 <button class="btn-red"
         onclick="comandarDisjuntor('DJG1',false)">
-
 ABRIR
-
 </button>
 
 </div>
 
 </div>
-
-
-<!-- DJG2 -->
 
 <div class="breaker-control">
 
@@ -1489,33 +1305,24 @@ ABRIR
 
 <div id="cmdStateG2"
      class="breaker-control-state">
-
 ABERTO
-
 </div>
 
 <div class="cmd-row">
 
 <button class="btn-green"
         onclick="comandarDisjuntor('DJG2',true)">
-
 FECHAR
-
 </button>
 
 <button class="btn-red"
         onclick="comandarDisjuntor('DJG2',false)">
-
 ABRIR
-
 </button>
 
 </div>
 
 </div>
-
-
-<!-- DJU -->
 
 <div class="breaker-control">
 
@@ -1523,25 +1330,19 @@ ABRIR
 
 <div id="cmdStateU"
      class="breaker-control-state">
-
 FECHADO
-
 </div>
 
 <div class="cmd-row">
 
 <button class="btn-green"
         onclick="comandarDisjuntor('DJU',true)">
-
 FECHAR
-
 </button>
 
 <button class="btn-red"
         onclick="comandarDisjuntor('DJU',false)">
-
 ABRIR
-
 </button>
 
 </div>
@@ -1549,65 +1350,66 @@ ABRIR
 </div>
 
 </div>
-
-
-<!-- BYPASS PANEL -->
 
 <div class="bypass-panel">
 
 <div id="bypassState"
      class="bypass-state off">
-
 🟠 BYPASS DESATIVADO
-
 </div>
 
 <div class="cmd-row">
 
 <button class="btn-green"
         onclick="ativarBypass()">
-
 ATIVAR BYPASS
-
 </button>
 
 <button class="btn-orange"
         onclick="desativarBypass()">
-
 DESATIVAR BYPASS
-
 </button>
 
 </div>
 
 <div id="bypassInfo"
      class="bypass-info">
-
 Caminho horizontal isolado.
-
 </div>
 
 </div>
-
-
-<!-- =====================================================
-     EXPLICAÇÃO
-===================================================== -->
 
 <div class="logic-box">
 
 <strong>MODO AUTOMÁTICO:</strong><br>
 
-O QTA monitora a REDE. Na falta da concessionária,
-seleciona automaticamente um GMG disponível.
-No retorno da REDE, retorna a carga para a concessionária.
+O QTA monitora continuamente a REDE. Quando a REDE está presente,
+ela possui prioridade absoluta. Na ausência da concessionária,
+o sistema seleciona automaticamente um GMG disponível.
+
+<br><br>
+
+<strong>RETORNO DA REDE:</strong><br>
+
+Quando a tensão da concessionária retorna, o relé de segurança
+confirma a presença da REDE. Em AUTO, o sistema primeiro abre
+DJG1/DJG2, remove o BYPASS do caminho de alimentação e somente
+depois permite o fechamento de DJREDE.
+
+<br><br>
+
+<strong>RELÉ DE SEGURANÇA:</strong><br>
+
+Com a REDE ausente, o retorno para DJREDE permanece bloqueado.
+O relé somente libera o retorno quando a tensão da concessionária
+é novamente detectada.
 
 <br><br>
 
 <strong>MODO MANUAL:</strong><br>
 
-O operador pode comandar individualmente
-DJREDE, DJG1, DJG2 e DJU.
+O operador pode comandar individualmente DJREDE, DJG1, DJG2 e DJU,
+respeitando os intertravamentos elétricos do simulador.
 
 <br><br>
 
@@ -1620,22 +1422,17 @@ combustível, sinal de disponibilidade e ausência de falha.
 
 <strong>EMERGÊNCIA:</strong><br>
 
-A parada de emergência abre os caminhos de potência
-e desliga os grupos geradores. Após o RESET, o sistema
-verifica primeiro a REDE. Se houver tensão, prioriza a REDE.
-Caso contrário, procura um GMG disponível.
+A parada de emergência abre os caminhos de potência,
+desliga os grupos geradores e invalida qualquer sequência
+automática pendente.
 
 <br><br>
 
 <strong>BYPASS — FUNÇÃO CORRETA:</strong><br>
 
-O BYPASS não é uma fonte de energia e não participa
-do cálculo de paralelismo.
-
-Quando ATIVADO, ele representa um caminho horizontal
-alternativo de alimentação entre a fonte disponível
-e as cargas, permitindo que o caminho principal do QTA/ATS
-seja considerado isolado para manutenção, teste ou contingência.
+O BYPASS não é uma fonte de energia e não participa do cálculo
+de paralelismo. Ele representa um caminho horizontal alternativo
+entre a fonte disponível e as cargas.
 
 <br><br>
 
@@ -1643,33 +1440,24 @@ seja considerado isolado para manutenção, teste ou contingência.
 
 FONTE → CAMINHO HORIZONTAL BYPASS → CARGAS.
 
-O QTA/ATS fica fora do caminho principal de alimentação
-representado pelo simulador.
-
 <br><br>
 
 <strong>BYPASS DESATIVADO:</strong><br>
 
 FONTE → QTA/ATS → DJU → CARGAS.
 
-O caminho horizontal do bypass permanece isolado.
-
 <br><br>
 
 <strong>PARALELISMO:</strong><br>
 
-O BYPASS não permite nem representa sincronismo entre
-REDE e GMG. Se REDE, GMG1 ou GMG2 forem conectados
-simultaneamente ao barramento, o simulador gera ERRO FATAL.
+O simulador bloqueia o fechamento indevido dos disjuntores
+e monitora continuamente REDE, GMG1 e GMG2. Se duas ou mais
+fontes forem conectadas simultaneamente ao barramento,
+é gerado ERRO FATAL.
 
 </div>
 
 </div>
-
-
-<!-- =====================================================
-     MONITORAMENTO
-===================================================== -->
 
 <div class="bottom-grid">
 
@@ -1683,79 +1471,49 @@ simultaneamente ao barramento, o simulador gera ERRO FATAL.
 
 <div id="permEmergency"
      class="permission ok">
-
 <span class="signal green"></span>
-
 EMERGÊNCIA LIBERADA
-
 </div>
-
 
 <div id="permRede"
      class="permission ok">
-
 <span class="signal green"></span>
-
 REDE DISPONÍVEL
-
 </div>
-
 
 <div id="permGmg1"
      class="permission">
-
 <span class="signal"></span>
-
 GMG1 NÃO PRONTO
-
 </div>
-
 
 <div id="permGmg2"
      class="permission">
-
 <span class="signal"></span>
-
 GMG2 NÃO PRONTO
-
 </div>
-
 
 <div id="permInterlock"
      class="permission ok">
-
 <span class="signal green"></span>
-
 CONDIÇÃO NORMAL
-
 </div>
-
 
 <div id="permBypass"
      class="permission">
-
 <span class="signal"></span>
-
 BYPASS DESATIVADO
-
 </div>
-
 
 <div id="permFatal"
      class="permission ok">
-
 <span class="signal green"></span>
-
 SEM ERRO FATAL
-
 </div>
 
 </div>
 
 </div>
-
-
-<!-- TABELA -->
 
 <div class="card">
 
@@ -1766,71 +1524,45 @@ SEM ERRO FATAL
 <table class="breaker-table">
 
 <thead>
-
 <tr>
-
 <th>Disjuntor</th>
 <th>Estado</th>
 <th>Função</th>
-
 </tr>
-
 </thead>
 
 <tbody>
 
 <tr>
-
 <td>DJREDE</td>
-
 <td id="tableDJREDE"></td>
-
 <td>Entrada REDE</td>
-
 </tr>
 
 <tr>
-
 <td>DJG1</td>
-
 <td id="tableDJG1"></td>
-
 <td>GMG1</td>
-
 </tr>
 
 <tr>
-
 <td>DJG2</td>
-
 <td id="tableDJG2"></td>
-
 <td>GMG2</td>
-
 </tr>
 
 <tr>
-
 <td>DJU</td>
-
 <td id="tableDJU"></td>
-
 <td>Saída para cargas</td>
-
 </tr>
 
 </tbody>
-
 </table>
 
 </div>
 
 </div>
-
-
-<!-- =====================================================
-     EVENTOS
-===================================================== -->
 
 <div class="card"
      style="margin-top:15px">
@@ -1912,8 +1644,23 @@ const sistema={
 
     partidaAutomaticaEmCurso:false,
 
-    timerAuto:null
+    /*
+       RELÉ DE SEGURANÇA DO RETORNO DA REDE
+    */
 
+    releSegurancaRetorno:true,
+    retornoRedeBloqueado:false,
+    retornoRedeEmCurso:false,
+
+    /*
+       ID DA SEQUÊNCIA.
+       Evita que timers antigos executem
+       depois que a condição do sistema mudou.
+    */
+
+    sequenciaRetornoId:0,
+
+    timerAuto:null
 };
 
 
@@ -1935,6 +1682,7 @@ function evento(texto,tipo="info"){
         `<span class="event-time">[${hora}]</span> ${texto}`;
 
     box.prepend(div);
+
 }
 
 
@@ -2048,13 +1796,6 @@ function calcularFonte(){
 /* =====================================================
    FONTE DO BYPASS
 ===================================================== */
-
-/*
-   O BYPASS NÃO É FONTE.
-
-   Ele apenas conduz a fonte que já está
-   selecionada/disponível.
-*/
 
 function determinarFonteBypass(){
 
@@ -2179,6 +1920,14 @@ function ativarErroFatal(motivo){
 
     sistema.motivoFatal=motivo;
 
+    /*
+       Invalida sequências automáticas pendentes.
+    */
+
+    sistema.sequenciaRetornoId++;
+
+    sistema.retornoRedeEmCurso=false;
+
     document.body.classList.add("fatal-active");
 
     document.getElementById("fatalDetail").innerHTML=`
@@ -2242,9 +1991,7 @@ function atualizar(){
         calcularFonte();
 
 
-    /* =========================
-       REDE
-    ========================= */
+    /* REDE */
 
     const redeStatus=
         document.getElementById("redeStatus");
@@ -2292,9 +2039,7 @@ function atualizar(){
         );
 
 
-    /* =========================
-       GMG1
-    ========================= */
+    /* GMG1 */
 
     let g1;
 
@@ -2361,9 +2106,7 @@ function atualizar(){
         );
 
 
-    /* =========================
-       GMG2
-    ========================= */
+    /* GMG2 */
 
     let g2;
 
@@ -2430,9 +2173,7 @@ function atualizar(){
         );
 
 
-    /* =========================
-       FONTE
-    ========================= */
+    /* FONTE */
 
     document.getElementById("fonteAtual")
         .textContent=
@@ -2454,9 +2195,7 @@ function atualizar(){
         );
 
 
-    /* =========================
-       QTA
-    ========================= */
+    /* QTA */
 
     let qtaEstado="SEM FONTE";
 
@@ -2509,9 +2248,7 @@ function atualizar(){
         );
 
 
-    /* =========================
-       LÂMPADA QTA
-    ========================= */
+    /* LÂMPADA */
 
     const qtaTemFonte=
         sistema.fonte!=="SEM FONTE";
@@ -2529,34 +2266,15 @@ function atualizar(){
         );
 
 
-    /* =========================
-       DISJUNTORES
-    ========================= */
+    /* DISJUNTORES */
 
-    atualizarBreaker(
-        "djrede",
-        sistema.djrede
-    );
-
-    atualizarBreaker(
-        "djg1",
-        sistema.djg1
-    );
-
-    atualizarBreaker(
-        "djg2",
-        sistema.djg2
-    );
-
-    atualizarBreaker(
-        "dju",
-        sistema.dju
-    );
+    atualizarBreaker("djrede",sistema.djrede);
+    atualizarBreaker("djg1",sistema.djg1);
+    atualizarBreaker("djg2",sistema.djg2);
+    atualizarBreaker("dju",sistema.dju);
 
 
-    /* =========================
-       LINHAS DAS FONTES
-    ========================= */
+    /* LINHAS */
 
     const redeEnergia=
         fonteRedeEnergizada();
@@ -2569,40 +2287,22 @@ function atualizar(){
 
 
     document.getElementById("lineRede")
-        .classList.toggle(
-            "active",
-            redeEnergia
-        );
+        .classList.toggle("active",redeEnergia);
 
     document.getElementById("lineGMG1")
-        .classList.toggle(
-            "active",
-            g1Energia
-        );
+        .classList.toggle("active",g1Energia);
 
     document.getElementById("lineGMG2")
-        .classList.toggle(
-            "active",
-            g2Energia
-        );
-
+        .classList.toggle("active",g2Energia);
 
     document.getElementById("vertical1")
-        .classList.toggle(
-            "active",
-            g1Energia
-        );
+        .classList.toggle("active",g1Energia);
 
     document.getElementById("vertical2")
-        .classList.toggle(
-            "active",
-            g2Energia
-        );
+        .classList.toggle("active",g2Energia);
 
 
-    /* =================================================
-       CAMINHO NORMAL
-    ================================================= */
+    /* CAMINHO NORMAL */
 
     const caminhoNormal=
         sistema.dju &&
@@ -2611,9 +2311,7 @@ function atualizar(){
         !sistema.bypassAtivo;
 
 
-    /* =================================================
-       CAMINHO HORIZONTAL DO BYPASS
-    ================================================= */
+    /* BYPASS */
 
     const fonteBypass=
         determinarFonteBypass();
@@ -2634,9 +2332,7 @@ function atualizar(){
         caminhoBypass;
 
 
-    /* =================================================
-       CARGA
-    ================================================= */
+    /* CARGA */
 
     const cargaLigada=
         caminhoNormal||
@@ -2649,13 +2345,11 @@ function atualizar(){
             caminhoNormal
         );
 
-
     document.getElementById("lineBypass")
         .classList.toggle(
             "active",
             caminhoBypass
         );
-
 
     document.getElementById("lineBypass")
         .classList.toggle(
@@ -2664,20 +2358,17 @@ function atualizar(){
             !caminhoBypass
         );
 
-
     document.getElementById("bypassFeed")
         .classList.toggle(
             "active",
             caminhoBypass
         );
 
-
     document.getElementById("cargas")
         .classList.toggle(
             "energized",
             cargaLigada
         );
-
 
     document.getElementById("cargas")
         .classList.toggle(
@@ -2721,9 +2412,7 @@ function atualizar(){
         );
 
 
-    /* =================================================
-       BYPASS VISUAL
-    ================================================= */
+    /* BYPASS VISUAL */
 
     const bypass=
         document.getElementById("bypass");
@@ -2816,9 +2505,7 @@ function atualizar(){
         "Caminho horizontal isolado. QTA/ATS em operação normal.";
 
 
-    /* =========================
-       MODO
-    ========================= */
+    /* MODO */
 
     const modo=
         sistema.modo==="AUTO"?
@@ -2829,11 +2516,9 @@ function atualizar(){
     document.getElementById("modoStatus")
         .textContent=modo;
 
-
     document.getElementById("modoBox")
         .textContent=
         "MODO "+modo;
-
 
     document.getElementById("modoBox")
         .className=
@@ -2845,19 +2530,15 @@ function atualizar(){
         );
 
 
-    /* =========================
-       EMERGÊNCIA
-    ========================= */
+    /* EMERGÊNCIA */
 
     const eb=
         document.getElementById("emergencyBox");
-
 
     eb.textContent=
         sistema.emergencia?
         "🛑 EMERGÊNCIA ATIVA":
         "✓ SISTEMA LIBERADO";
-
 
     eb.className=
         "emergency-box "+
@@ -2885,7 +2566,7 @@ function atualizar(){
 
 
 /* =====================================================
-   ATUALIZAR BREAKER
+   BREAKER
 ===================================================== */
 
 function atualizarBreaker(id,estado){
@@ -2928,25 +2609,10 @@ function estadoTabela(id,estado){
 
 function atualizarTabela(){
 
-    estadoTabela(
-        "tableDJREDE",
-        sistema.djrede
-    );
-
-    estadoTabela(
-        "tableDJG1",
-        sistema.djg1
-    );
-
-    estadoTabela(
-        "tableDJG2",
-        sistema.djg2
-    );
-
-    estadoTabela(
-        "tableDJU",
-        sistema.dju
-    );
+    estadoTabela("tableDJREDE",sistema.djrede);
+    estadoTabela("tableDJG1",sistema.djg1);
+    estadoTabela("tableDJG2",sistema.djg2);
+    estadoTabela("tableDJU",sistema.dju);
 
 }
 
@@ -2963,20 +2629,17 @@ function atualizarComandos(){
         "FECHADO":
         "ABERTO";
 
-
     document.getElementById("cmdStateG1")
         .textContent=
         sistema.djg1?
         "FECHADO":
         "ABERTO";
 
-
     document.getElementById("cmdStateG2")
         .textContent=
         sistema.djg2?
         "FECHADO":
         "ABERTO";
-
 
     document.getElementById("cmdStateU")
         .textContent=
@@ -3003,7 +2666,6 @@ function permissao(id,ok,texto){
             "ok":
             "bad"
         );
-
 
     el.innerHTML=`
 
@@ -3068,9 +2730,16 @@ function atualizarPermissivas(){
 
     permissao(
         "permInterlock",
-        fontes.length<=1,
+        fontes.length<=1 &&
+        !sistema.retornoRedeBloqueado,
+        sistema.retornoRedeBloqueado?
+        "🔒 RETORNO REDE — BLOQUEADO":
         fontes.length<=1?
-        "CONDIÇÃO NORMAL":
+        (
+            sistema.releSegurancaRetorno?
+            "✓ RELÉ RETORNO — REDE CONFIRMADA":
+            "CONDIÇÃO NORMAL"
+        ):
         "⚠ FONTES EM PARALELO — FATAL"
     );
 
@@ -3124,7 +2793,7 @@ function atualizarPermissivas(){
 
 
 /* =====================================================
-   MARCAR DISJUNTORES FATAIS
+   MARCAR FATAL
 ===================================================== */
 
 function marcarDisjuntoresFatais(){
@@ -3136,14 +2805,12 @@ function marcarDisjuntoresFatais(){
             fonteRedeEnergizada()
         );
 
-
     document.getElementById("djg1")
         .classList.toggle(
             "fatal",
             sistema.erroFatal &&
             fonteGMG1Energizada()
         );
-
 
     document.getElementById("djg2")
         .classList.toggle(
@@ -3156,61 +2823,345 @@ function marcarDisjuntoresFatais(){
 
 
 /* =====================================================
-   DISJUNTORES
+   COMANDO INDIVIDUAL DOS DISJUNTORES
 ===================================================== */
 
-function comandarDisjuntor(
-    disjuntor,
-    fechar
-){
+function comandarDisjuntor(disjuntor,fechar){
 
-    if(disjuntor==="DJREDE")
-        sistema.djrede=fechar;
+    /* =========================
+       DJREDE
+    ========================= */
 
-    if(disjuntor==="DJG1")
+    if(
+        disjuntor==="DJREDE" &&
+        fechar
+    ){
+
+        if(!sistema.redeOK){
+
+            sistema.releSegurancaRetorno=false;
+            sistema.retornoRedeBloqueado=true;
+
+            evento(
+                "🚫 DJREDE NÃO PODE FECHAR — REDE AUSENTE — RELÉ DE SEGURANÇA BLOQUEANDO",
+                "error"
+            );
+
+            atualizar();
+
+            return;
+        }
+
+
+        if(sistema.emergencia){
+
+            evento(
+                "🚫 DJREDE BLOQUEADO — EMERGÊNCIA ATIVA",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if(
+            sistema.modo==="AUTO" &&
+            !sistema.retornoRedeEmCurso
+        ){
+
+            evento(
+                "🔒 DJREDE BLOQUEADO — AUTO EXIGE SEQUÊNCIA DE RETORNO DA REDE",
+                "warning"
+            );
+
+            atualizar();
+
+            return;
+        }
+
+
+        if(
+            sistema.djg1 ||
+            sistema.djg2
+        ){
+
+            evento(
+                "🚨 DJREDE BLOQUEADO — GMG AINDA CONECTADO — RISCO DE PARALELISMO",
+                "error"
+            );
+
+            atualizar();
+
+            return;
+        }
+
+
+        if(
+            !sistema.releSegurancaRetorno
+        ){
+
+            evento(
+                "🔒 DJREDE BLOQUEADO — RELÉ DE SEGURANÇA NÃO LIBEROU O RETORNO",
+                "warning"
+            );
+
+            atualizar();
+
+            return;
+        }
+
+
+        sistema.djrede=true;
+
+        evento(
+            "🟢 DJREDE FECHADO — REDE CONECTADA",
+            "ok"
+        );
+
+        atualizar();
+
+        verificarErroFatal();
+
+        return;
+    }
+
+
+    /* ABRIR DJREDE */
+
+    if(
+        disjuntor==="DJREDE" &&
+        !fechar
+    ){
+
+        sistema.djrede=false;
+
+        evento(
+            "🔴 COMANDO ABRIR DJREDE",
+            "warning"
+        );
+
+        atualizar();
+
+        return;
+    }
+
+
+    /* =========================
+       DJG1
+    ========================= */
+
+    if(disjuntor==="DJG1"){
+
+        if(fechar){
+
+            if(!sistema.gmg1Estavel){
+
+                evento(
+                    "🚫 DJG1 NÃO PODE FECHAR — GMG1 NÃO ESTÁ ESTÁVEL",
+                    "warning"
+                );
+
+                return;
+            }
+
+
+            if(sistema.gmg1Falha){
+
+                evento(
+                    "🚫 DJG1 BLOQUEADO — FALHA GMG1",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if(sistema.redeOK && sistema.djrede){
+
+                evento(
+                    "🚨 DJG1 BLOQUEADO — REDE ESTÁ CONECTADA",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if(sistema.djg2){
+
+                evento(
+                    "🚨 DJG1 BLOQUEADO — DJG2 JÁ ESTÁ FECHADO",
+                    "error"
+                );
+
+                return;
+            }
+
+        }
+
         sistema.djg1=fechar;
 
-    if(disjuntor==="DJG2")
+        evento(
+            (fechar?"🟢":"🔴")+
+            " COMANDO "+
+            (fechar?"FECHAR ":"ABRIR ")+
+            "DJG1",
+            fechar?"ok":"warning"
+        );
+
+        atualizar();
+
+        verificarErroFatal();
+
+        return;
+    }
+
+
+    /* =========================
+       DJG2
+    ========================= */
+
+    if(disjuntor==="DJG2"){
+
+        if(fechar){
+
+            if(!sistema.gmg2Estavel){
+
+                evento(
+                    "🚫 DJG2 NÃO PODE FECHAR — GMG2 NÃO ESTÁ ESTÁVEL",
+                    "warning"
+                );
+
+                return;
+            }
+
+
+            if(sistema.gmg2Falha){
+
+                evento(
+                    "🚫 DJG2 BLOQUEADO — FALHA GMG2",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if(sistema.redeOK && sistema.djrede){
+
+                evento(
+                    "🚨 DJG2 BLOQUEADO — REDE ESTÁ CONECTADA",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if(sistema.djg1){
+
+                evento(
+                    "🚨 DJG2 BLOQUEADO — DJG1 JÁ ESTÁ FECHADO",
+                    "error"
+                );
+
+                return;
+            }
+
+        }
+
         sistema.djg2=fechar;
 
-    if(disjuntor==="DJU")
+        evento(
+            (fechar?"🟢":"🔴")+
+            " COMANDO "+
+            (fechar?"FECHAR ":"ABRIR ")+
+            "DJG2",
+            fechar?"ok":"warning"
+        );
+
+        atualizar();
+
+        verificarErroFatal();
+
+        return;
+    }
+
+
+    /* =========================
+       DJU
+    ========================= */
+
+    if(disjuntor==="DJU"){
+
         sistema.dju=fechar;
 
+        evento(
+            (fechar?"🟢":"🔴")+
+            " COMANDO "+
+            (fechar?"FECHAR ":"ABRIR ")+
+            "DJU",
+            fechar?"ok":"warning"
+        );
 
-    evento(
+        atualizar();
 
-        (fechar?"🟢":"🔴")+
-        " COMANDO "+
-        (fechar?"FECHAR ":"ABRIR ")+
-        disjuntor,
+        verificarErroFatal();
 
-        fechar?
-        "ok":
-        "warning"
-
-    );
-
-
-    atualizar();
-
-    verificarErroFatal();
+        return;
+    }
 
 }
 
 
 /* =====================================================
-   FALHA REDE
+   FALHA DA REDE
 ===================================================== */
 
 function falhaRede(){
 
     sistema.redeOK=false;
 
+    /*
+       O relé imediatamente bloqueia o retorno.
+    */
+
+    sistema.releSegurancaRetorno=false;
+    sistema.retornoRedeBloqueado=true;
+
+    /*
+       Invalida qualquer retorno que esteja aguardando timer.
+    */
+
+    sistema.retornoRedeEmCurso=false;
+    sistema.sequenciaRetornoId++;
 
     evento(
         "⚠ FALHA DA REDE — TENSÃO DA CONCESSIONÁRIA AUSENTE",
         "warning"
     );
+
+    evento(
+        "🔒 RELÉ DE SEGURANÇA — RETORNO PARA REDE BLOQUEADO",
+        "warning"
+    );
+
+
+    /*
+       Se DJREDE estiver fechado,
+       ele deve abrir imediatamente.
+    */
+
+    if(sistema.djrede){
+
+        sistema.djrede=false;
+
+        evento(
+            "🔴 DJREDE ABERTO — REDE DESCONECTADA",
+            "warning"
+        );
+
+    }
 
 
     atualizar();
@@ -3236,9 +3187,16 @@ function restaurarRede(){
 
     sistema.redeOK=true;
 
+    sistema.releSegurancaRetorno=true;
+    sistema.retornoRedeBloqueado=false;
 
     evento(
-        "✓ REDE RESTABELECIDA — TENSÃO PRESENTE",
+        "✓ REDE DA CONCESSIONÁRIA RESTABELECIDA — TENSÃO PRESENTE",
+        "ok"
+    );
+
+    evento(
+        "✓ RELÉ DE SEGURANÇA — REDE CONFIRMADA — RETORNO AUTORIZADO",
         "ok"
     );
 
@@ -3253,16 +3211,37 @@ function restaurarRede(){
 
         restaurarPorRedeAutomaticamente();
 
+    }else{
+
+        sistema.sequencia=
+            "REDE DISPONÍVEL — AGUARDANDO CONTROLE";
+
+        atualizar();
+
     }
 
 }
 
 
 /* =====================================================
-   TRANSFERÊNCIA AUTOMÁTICA
+   TRANSFERÊNCIA AUTOMÁTICA PARA GMG
 ===================================================== */
 
 function iniciarTransferenciaAutomatica(){
+
+    if(sistema.modo!=="AUTO")
+        return;
+
+    if(sistema.emergencia)
+        return;
+
+    if(sistema.redeOK){
+
+        controleAutomatico();
+
+        return;
+    }
+
 
     if(sistema.partidaAutomaticaEmCurso)
         return;
@@ -3276,8 +3255,7 @@ function iniciarTransferenciaAutomatica(){
 
 
     /*
-       Abre o caminho da REDE antes
-       de conectar qualquer GMG.
+       Sempre abrir a REDE antes do GMG.
     */
 
     if(sistema.djrede){
@@ -3306,9 +3284,14 @@ function iniciarTransferenciaAutomatica(){
             sistema.partidaAutomaticaEmCurso=false;
 
             sistema.sequencia=
+                sistema.redeOK?
+                "REDE PRESENTE — CANCELANDO TRANSFERÊNCIA PARA GMG":
                 "MONITORAMENTO NORMAL";
 
             atualizar();
+
+            if(sistema.redeOK)
+                restaurarPorRedeAutomaticamente();
 
             return;
         }
@@ -3349,10 +3332,41 @@ function iniciarTransferenciaAutomatica(){
         atualizar();
 
 
-        if(escolhido==="GMG1")
-            partirGMG1(true);
-        else
-            partirGMG2(true);
+        if(escolhido==="GMG1"){
+
+            if(
+                sistema.gmg1Ligado &&
+                sistema.gmg1Estavel
+            ){
+
+                sistema.partidaAutomaticaEmCurso=false;
+
+                transferirGMG1(true);
+
+            }else{
+
+                partirGMG1(true);
+
+            }
+
+        }else{
+
+            if(
+                sistema.gmg2Ligado &&
+                sistema.gmg2Estavel
+            ){
+
+                sistema.partidaAutomaticaEmCurso=false;
+
+                transferirGMG2(true);
+
+            }else{
+
+                partirGMG2(true);
+
+            }
+
+        }
 
 
     },1500);
@@ -3389,7 +3403,10 @@ function partirGMG1(automatico=false){
 
             sistema.partidaAutomaticaEmCurso=false;
 
-            if(gmg2Disponivel())
+            if(
+                !sistema.redeOK &&
+                gmg2Disponivel()
+            )
                 partirGMG2(true);
 
         }
@@ -3407,6 +3424,18 @@ function partirGMG1(automatico=false){
             "ℹ GMG1 JÁ ESTÁ FUNCIONANDO",
             "info"
         );
+
+        if(
+            automatico &&
+            sistema.gmg1Estavel &&
+            !sistema.redeOK
+        ){
+
+            sistema.partidaAutomaticaEmCurso=false;
+
+            transferirGMG1(true);
+
+        }
 
         return;
     }
@@ -3494,27 +3523,38 @@ function transferirGMG1(automatico=false){
     ){
 
         evento(
-            "⚠ AUTO — REDE RETORNOU. TRANSFERÊNCIA PARA GMG1 CANCELADA",
+            "⚠ AUTO — REDE RETORNOU — TRANSFERÊNCIA PARA GMG1 CANCELADA",
             "warning"
         );
+
+        restaurarPorRedeAutomaticamente();
 
         return;
     }
 
 
-    /*
-       Em transferência automática,
-       garante abertura das outras fontes
-       antes de fechar GMG1.
-    */
+    if(
+        automatico &&
+        sistema.modo!=="AUTO"
+    )
+        return;
 
-    if(automatico){
 
-        sistema.djrede=false;
+    if(
+        sistema.djg2
+    ){
+
         sistema.djg2=false;
+
+        evento(
+            "🔴 AUTO — DJG2 ABERTO ANTES DA CONEXÃO DO GMG1",
+            "warning"
+        );
 
     }
 
+
+    sistema.djrede=false;
 
     sistema.djg1=true;
 
@@ -3573,6 +3613,7 @@ function falharGMG1(){
 
     }
 
+
 }
 
 
@@ -3629,7 +3670,10 @@ function partirGMG2(automatico=false){
 
             sistema.partidaAutomaticaEmCurso=false;
 
-            if(gmg1Disponivel())
+            if(
+                !sistema.redeOK &&
+                gmg1Disponivel()
+            )
                 partirGMG1(true);
 
         }
@@ -3647,6 +3691,18 @@ function partirGMG2(automatico=false){
             "ℹ GMG2 JÁ ESTÁ FUNCIONANDO",
             "info"
         );
+
+        if(
+            automatico &&
+            sistema.gmg2Estavel &&
+            !sistema.redeOK
+        ){
+
+            sistema.partidaAutomaticaEmCurso=false;
+
+            transferirGMG2(true);
+
+        }
 
         return;
     }
@@ -3734,22 +3790,36 @@ function transferirGMG2(automatico=false){
     ){
 
         evento(
-            "⚠ AUTO — REDE RETORNOU. TRANSFERÊNCIA PARA GMG2 CANCELADA",
+            "⚠ AUTO — REDE RETORNOU — TRANSFERÊNCIA PARA GMG2 CANCELADA",
             "warning"
         );
+
+        restaurarPorRedeAutomaticamente();
 
         return;
     }
 
 
-    if(automatico){
+    if(
+        automatico &&
+        sistema.modo!=="AUTO"
+    )
+        return;
 
-        sistema.djrede=false;
+
+    if(sistema.djg1){
 
         sistema.djg1=false;
 
+        evento(
+            "🔴 AUTO — DJG1 ABERTO ANTES DA CONEXÃO DO GMG2",
+            "warning"
+        );
+
     }
 
+
+    sistema.djrede=false;
 
     sistema.djg2=true;
 
@@ -3847,6 +3917,17 @@ function transferirManual(gmg){
     }
 
 
+    if(sistema.emergencia){
+
+        evento(
+            "🚫 TRANSFERÊNCIA MANUAL BLOQUEADA — EMERGÊNCIA ATIVA",
+            "error"
+        );
+
+        return;
+    }
+
+
     if(gmg==="GMG1"){
 
         if(!sistema.gmg1Estavel){
@@ -3858,6 +3939,32 @@ function transferirManual(gmg){
 
             return;
         }
+
+
+        if(sistema.redeOK && sistema.djrede){
+
+            evento(
+                "🚫 GMG1 BLOQUEADO — REDE CONECTADA",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if(sistema.djg2){
+
+            sistema.djg2=false;
+
+            evento(
+                "🔴 MANUAL — DJG2 ABERTO — SELEÇÃO GMG1",
+                "warning"
+            );
+
+        }
+
+
+        sistema.djrede=false;
 
         sistema.djg1=true;
 
@@ -3881,6 +3988,32 @@ function transferirManual(gmg){
             return;
         }
 
+
+        if(sistema.redeOK && sistema.djrede){
+
+            evento(
+                "🚫 GMG2 BLOQUEADO — REDE CONECTADA",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if(sistema.djg1){
+
+            sistema.djg1=false;
+
+            evento(
+                "🔴 MANUAL — DJG1 ABERTO — SELEÇÃO GMG2",
+                "warning"
+            );
+
+        }
+
+
+        sistema.djrede=false;
+
         sistema.djg2=true;
 
         evento(
@@ -3903,6 +4036,17 @@ function transferirManual(gmg){
 ===================================================== */
 
 function ativarBypass(){
+
+    if(sistema.emergencia){
+
+        evento(
+            "🚫 BYPASS BLOQUEADO — EMERGÊNCIA ATIVA",
+            "error"
+        );
+
+        return;
+    }
+
 
     if(sistema.bypassAtivo){
 
@@ -3993,37 +4137,102 @@ function desativarBypass(){
 
 function alternarModo(){
 
-    sistema.modo=
-        sistema.modo==="AUTO"?
-        "MANUAL":
-        "AUTO";
+    /*
+       AUTO -> MANUAL
+    */
 
+    if(sistema.modo==="AUTO"){
+
+        sistema.modo="MANUAL";
+
+        sistema.retornoRedeEmCurso=false;
+
+        sistema.sequenciaRetornoId++;
+
+        sistema.sequencia=
+            "CONTROLE MANUAL PELO OPERADOR";
+
+
+        evento(
+            "🟠 MODO MANUAL ATIVADO — RETORNO AUTOMÁTICO DA REDE BLOQUEADO",
+            "warning"
+        );
+
+
+        atualizar();
+
+        return;
+    }
+
+
+    /*
+       MANUAL -> AUTO
+    */
+
+    sistema.modo="AUTO";
 
     evento(
-        sistema.modo==="AUTO"?
-        "🔵 MODO AUTOMÁTICO":
-        "🟠 MODO MANUAL",
+        "🔵 MODO AUTOMÁTICO ATIVADO",
         "info"
     );
 
 
     sistema.sequencia=
-        sistema.modo==="AUTO"?
-        "MONITORAMENTO AUTOMÁTICO":
-        "CONTROLE MANUAL PELO OPERADOR";
+        "AUTO — VERIFICANDO REDE E CONDIÇÕES DE SEGURANÇA";
 
 
     atualizar();
 
 
-    if(
-        sistema.modo==="AUTO" &&
-        !sistema.emergencia
-    ){
+    if(sistema.emergencia)
+        return;
+
+
+    /*
+       SEM REDE:
+       relé permanece bloqueado.
+    */
+
+    if(!sistema.redeOK){
+
+        sistema.releSegurancaRetorno=false;
+        sistema.retornoRedeBloqueado=true;
+        sistema.retornoRedeEmCurso=false;
+
+        sistema.sequencia=
+            "AUTO — REDE AUSENTE — RETORNO BLOQUEADO PELO RELÉ DE SEGURANÇA";
+
+
+        evento(
+            "🔒 RELÉ DE SEGURANÇA — RETORNO PARA REDE BLOQUEADO: REDE AUSENTE",
+            "warning"
+        );
+
+
+        atualizar();
 
         controleAutomatico();
 
+        return;
     }
+
+
+    /*
+       REDE PRESENTE:
+       libera relé e inicia retorno.
+    */
+
+    sistema.releSegurancaRetorno=true;
+    sistema.retornoRedeBloqueado=false;
+
+
+    evento(
+        "✓ RELÉ DE SEGURANÇA — REDE CONFIRMADA — RETORNO AUTORIZADO",
+        "ok"
+    );
+
+
+    restaurarPorRedeAutomaticamente();
 
 }
 
@@ -4034,11 +4243,21 @@ function alternarModo(){
 
 function controleAutomatico(){
 
+    if(sistema.modo!=="AUTO")
+        return;
+
     if(sistema.emergencia)
         return;
 
 
+    /*
+       PRIORIDADE ABSOLUTA DA REDE.
+    */
+
     if(sistema.redeOK){
+
+        sistema.releSegurancaRetorno=true;
+        sistema.retornoRedeBloqueado=false;
 
         restaurarPorRedeAutomaticamente();
 
@@ -4046,14 +4265,40 @@ function controleAutomatico(){
     }
 
 
-    const fonte=
-        calcularFonte();
+    /*
+       REDE AUSENTE.
+       DJREDE obrigatoriamente aberto.
+    */
 
+    sistema.releSegurancaRetorno=false;
+    sistema.retornoRedeBloqueado=true;
+
+    if(sistema.djrede){
+
+        sistema.djrede=false;
+
+        evento(
+            "🔴 AUTO — DJREDE ABERTO — REDE AUSENTE",
+            "warning"
+        );
+
+    }
+
+
+    /*
+       Se já existe um GMG alimentando,
+       não inicia outra transferência.
+    */
 
     if(
-        fonte==="GMG1"||
-        fonte==="GMG2"
+        fonteGMG1Energizada() ||
+        fonteGMG2Energizada()
     ){
+
+        sistema.sequencia=
+            "AUTO — REDE AUSENTE — GMG ALIMENTANDO";
+
+        atualizar();
 
         return;
     }
@@ -4070,29 +4315,107 @@ function controleAutomatico(){
 
 function restaurarPorRedeAutomaticamente(){
 
-    if(!sistema.redeOK)
+    /*
+       REDE NÃO EXISTE:
+       retorno completamente bloqueado.
+    */
+
+    if(!sistema.redeOK){
+
+        sistema.releSegurancaRetorno=false;
+        sistema.retornoRedeBloqueado=true;
+        sistema.retornoRedeEmCurso=false;
+
+        sistema.sequencia=
+            "RETORNO REDE BLOQUEADO — REDE AUSENTE";
+
+        atualizar();
+
+        return;
+    }
+
+
+    if(sistema.modo!=="AUTO")
+        return;
+
+    if(sistema.emergencia)
         return;
 
 
+    /*
+       Libera o relé.
+    */
+
+    sistema.releSegurancaRetorno=true;
+    sistema.retornoRedeBloqueado=false;
+
+    sistema.retornoRedeEmCurso=true;
+
+
+    /*
+       Cria uma nova identificação de sequência.
+    */
+
+    const idSequencia=
+        ++sistema.sequenciaRetornoId;
+
+
     sistema.sequencia=
-        "REDE PRESENTE — RESTABELECENDO CARGA";
+        "REDE PRESENTE — RELÉ DE SEGURANÇA LIBERADO — PREPARANDO RETORNO";
+
+
+    evento(
+        "🔵 AUTO — REDE DETECTADA — INICIANDO SEQUÊNCIA SEGURA DE RETORNO",
+        "info"
+    );
 
 
     atualizar();
 
 
+    /*
+       ETAPA 1
+       Aguarda confirmação da REDE.
+    */
+
     setTimeout(()=>{
 
+        /*
+           Verifica se esta ainda é a sequência válida.
+        */
+
         if(
-            !sistema.redeOK||
-            sistema.emergencia||
-            sistema.modo!=="AUTO"
+            idSequencia!==sistema.sequenciaRetornoId
         )
             return;
 
 
+        if(
+            !sistema.redeOK||
+            sistema.modo!=="AUTO"||
+            sistema.emergencia
+        ){
+
+            sistema.retornoRedeEmCurso=false;
+
+            if(!sistema.redeOK){
+
+                sistema.releSegurancaRetorno=false;
+                sistema.retornoRedeBloqueado=true;
+            }
+
+            atualizar();
+
+            return;
+        }
+
+
+        sistema.sequencia=
+            "RETORNO REDE — ABRINDO FONTES GMG";
+
+
         /*
-           ABERTURA DOS GERADORES
+           Abre GMG1.
         */
 
         if(sistema.djg1){
@@ -4100,60 +4423,242 @@ function restaurarPorRedeAutomaticamente(){
             sistema.djg1=false;
 
             evento(
-                "🔴 AUTO — DJG1 ABERTO — RETORNO PARA REDE",
+                "🔴 AUTO — DJG1 ABERTO — ISOLANDO GMG1 PARA RETORNO DA REDE",
                 "warning"
             );
 
         }
 
+
+        /*
+           Abre GMG2.
+        */
 
         if(sistema.djg2){
 
             sistema.djg2=false;
 
             evento(
-                "🔴 AUTO — DJG2 ABERTO — RETORNO PARA REDE",
+                "🔴 AUTO — DJG2 ABERTO — ISOLANDO GMG2 PARA RETORNO DA REDE",
                 "warning"
             );
 
         }
 
 
-        /*
-           FECHA REDE
-        */
-
-        sistema.djrede=true;
-
-
-        evento(
-            "🟢 AUTO — DJREDE FECHADO — REDE ALIMENTANDO",
-            "ok"
-        );
-
-
-        sistema.sequencia=
-            "REDE ALIMENTANDO — GMGs EM RESFRIAMENTO";
-
-
         atualizar();
 
 
         /*
-           PARADA SIMULADA APÓS RESFRIAMENTO
+           ETAPA 2:
+           tempo morto de segurança.
         */
 
         setTimeout(()=>{
 
             if(
-                sistema.redeOK &&
-                sistema.modo==="AUTO"
+                idSequencia!==sistema.sequenciaRetornoId
+            )
+                return;
+
+
+            /*
+               Se a REDE desapareceu durante o tempo morto,
+               NÃO fecha DJREDE.
+            */
+
+            if(
+                !sistema.redeOK||
+                sistema.modo!=="AUTO"||
+                sistema.emergencia
             ){
+
+                sistema.djrede=false;
+
+                sistema.retornoRedeEmCurso=false;
+
+                sistema.releSegurancaRetorno=
+                    sistema.redeOK;
+
+                sistema.retornoRedeBloqueado=
+                    !sistema.redeOK;
+
+
+                sistema.sequencia=
+                    !sistema.redeOK?
+                    "RETORNO CANCELADO — REDE DESAPARECEU":
+                    "RETORNO CANCELADO — CONDIÇÃO DE SEGURANÇA";
+
+
+                evento(
+                    !sistema.redeOK?
+                    "🚫 RETORNO CANCELADO — RELÉ DETECTOU PERDA DA REDE":
+                    "🚫 RETORNO CANCELADO — MODO/EMERGÊNCIA NÃO PERMITE FECHAMENTO",
+                    "warning"
+                );
+
+
+                atualizar();
+
+                return;
+            }
+
+
+            /*
+               BYPASS:
+               antes de devolver a alimentação
+               para o QTA, o caminho alternativo
+               é retirado.
+            */
+
+            if(sistema.bypassAtivo){
+
+                sistema.bypassAtivo=false;
+                sistema.bypassFonte="";
+                sistema.bypassAlimentando=false;
+
+
+                evento(
+                    "🟠 AUTO — BYPASS DESATIVADO — RETORNO AO CAMINHO NORMAL DO QTA",
+                    "warning"
+                );
+
+            }
+
+
+            /*
+               Garante saída QTA fechada.
+            */
+
+            if(!sistema.dju){
+
+                sistema.dju=true;
+
+                evento(
+                    "🟢 AUTO — DJU FECHADO — CAMINHO QTA DISPONÍVEL",
+                    "ok"
+                );
+
+            }
+
+
+            /*
+               PERMISSIVA FINAL DE SEGURANÇA.
+            */
+
+            const permissaoRetornoRede=
+                sistema.redeOK &&
+                sistema.modo==="AUTO" &&
+                !sistema.emergencia &&
+                sistema.releSegurancaRetorno &&
+                !sistema.djg1 &&
+                !sistema.djg2;
+
+
+            if(!permissaoRetornoRede){
+
+                sistema.djrede=false;
+
+                sistema.retornoRedeEmCurso=false;
+
+                sistema.releSegurancaRetorno=false;
+                sistema.retornoRedeBloqueado=true;
+
+                sistema.sequencia=
+                    "RETORNO BLOQUEADO — PERMISSIVA NÃO SATISFEITA";
+
+
+                evento(
+                    "🚫 DJREDE NÃO FECHADO — PERMISSIVA DE SEGURANÇA NÃO SATISFEITA",
+                    "error"
+                );
+
+
+                atualizar();
+
+                return;
+            }
+
+
+            /*
+               FECHAMENTO FINAL.
+            */
+
+            sistema.djrede=true;
+
+            sistema.retornoRedeEmCurso=false;
+
+            sistema.retornoRedeBloqueado=false;
+
+            sistema.releSegurancaRetorno=true;
+
+
+            evento(
+                "🟢 AUTO — DJREDE FECHADO — REDE ALIMENTANDO CARGA",
+                "ok"
+            );
+
+
+            sistema.sequencia=
+                "REDE ALIMENTANDO — GMGs EM RESFRIAMENTO";
+
+
+            atualizar();
+
+
+            verificarErroFatal();
+
+
+            /*
+               ETAPA 3:
+               resfriamento dos GMGs.
+            */
+
+            setTimeout(()=>{
+
+                if(
+                    idSequencia!==sistema.sequenciaRetornoId
+                )
+                    return;
+
+
+                /*
+                   Se a rede caiu durante o resfriamento,
+                   não desligamos os GMGs se houver
+                   necessidade de nova transferência.
+                */
+
+                if(
+                    !sistema.redeOK||
+                    sistema.modo!=="AUTO"||
+                    sistema.emergencia
+                ){
+
+                    if(!sistema.redeOK){
+
+                        sistema.djrede=false;
+
+                        sistema.releSegurancaRetorno=false;
+                        sistema.retornoRedeBloqueado=true;
+
+                        evento(
+                            "⚠ REDE PERDIDA DURANTE RESFRIAMENTO — DJREDE ABERTO",
+                            "warning"
+                        );
+
+                        atualizar();
+
+                        iniciarTransferenciaAutomatica();
+
+                    }
+
+                    return;
+                }
+
 
                 if(sistema.gmg1Ligado){
 
                     sistema.gmg1Ligado=false;
-
                     sistema.gmg1Estavel=false;
 
                     evento(
@@ -4167,7 +4672,6 @@ function restaurarPorRedeAutomaticamente(){
                 if(sistema.gmg2Ligado){
 
                     sistema.gmg2Ligado=false;
-
                     sistema.gmg2Estavel=false;
 
                     evento(
@@ -4179,17 +4683,18 @@ function restaurarPorRedeAutomaticamente(){
 
 
                 sistema.sequencia=
-                    "MONITORAMENTO NORMAL";
+                    "MONITORAMENTO NORMAL — REDE PRIORITÁRIA";
 
 
                 atualizar();
 
-            }
-
-        },5000);
+            },5000);
 
 
-    },2000);
+        },1500);
+
+
+    },1000);
 
 }
 
@@ -4202,38 +4707,45 @@ function emergencia(){
 
     sistema.emergencia=true;
 
+    /*
+       Invalida qualquer timer de retorno.
+    */
+
+    sistema.sequenciaRetornoId++;
+
+    sistema.retornoRedeEmCurso=false;
+
+    sistema.partidaAutomaticaEmCurso=false;
+
 
     /*
-       REMOVE TODAS AS FONTES DO BARRAMENTO
+       Remove todas as fontes.
     */
 
     sistema.djrede=false;
-
     sistema.djg1=false;
-
     sistema.djg2=false;
-
     sistema.dju=false;
 
 
     sistema.gmg1Ligado=false;
-
     sistema.gmg2Ligado=false;
 
     sistema.gmg1Estavel=false;
-
     sistema.gmg2Estavel=false;
 
 
     /*
-       BYPASS TAMBÉM É DESATIVADO.
+       BYPASS desativado.
     */
 
     sistema.bypassAtivo=false;
-
     sistema.bypassFonte="";
-
     sistema.bypassAlimentando=false;
+
+
+    sistema.releSegurancaRetorno=false;
+    sistema.retornoRedeBloqueado=true;
 
 
     sistema.sequencia=
@@ -4270,6 +4782,11 @@ function resetEmergencia(){
 
     sistema.emergencia=false;
 
+    /*
+       Nova sequência.
+    */
+
+    sistema.sequenciaRetornoId++;
 
     evento(
         "↻ RESET DE EMERGÊNCIA — INICIANDO RESTABELECIMENTO",
@@ -4288,6 +4805,14 @@ function resetEmergencia(){
 
         if(sistema.redeOK){
 
+            /*
+               Rede detectada.
+            */
+
+            sistema.releSegurancaRetorno=true;
+            sistema.retornoRedeBloqueado=false;
+
+
             evento(
                 "✓ RESET — REDE DISPONÍVEL — PRIORIDADE PARA REDE",
                 "ok"
@@ -4303,10 +4828,22 @@ function resetEmergencia(){
 
             }else{
 
-                sistema.djrede=true;
+                /*
+                   Em MANUAL ainda respeitamos
+                   os intertravamentos.
+                */
+
+                sistema.retornoRedeEmCurso=false;
+
+                sistema.djrede=false;
+
+                evento(
+                    "ℹ RESET — REDE DISPONÍVEL — AGUARDANDO COMANDO MANUAL",
+                    "info"
+                );
 
                 sistema.sequencia=
-                    "MANUAL — REDE DISPONÍVEL";
+                    "MANUAL — REDE DISPONÍVEL — DJREDE AGUARDANDO COMANDO";
 
                 atualizar();
 
@@ -4314,8 +4851,15 @@ function resetEmergencia(){
 
 
             return;
-
         }
+
+
+        /*
+           REDE AUSENTE.
+        */
+
+        sistema.releSegurancaRetorno=false;
+        sistema.retornoRedeBloqueado=true;
 
 
         evento(
@@ -4396,6 +4940,12 @@ function resetSistema(){
         clearTimeout(sistema.timerAuto);
 
 
+    /*
+       Invalida todos os timers de retorno.
+    */
+
+    sistema.sequenciaRetornoId++;
+
     sistema.redeOK=true;
 
 
@@ -4424,18 +4974,13 @@ function resetSistema(){
 
 
     sistema.djrede=true;
-
     sistema.djg1=false;
-
     sistema.djg2=false;
-
     sistema.dju=true;
 
 
     sistema.bypassAtivo=false;
-
     sistema.bypassFonte="";
-
     sistema.bypassAlimentando=false;
 
 
@@ -4446,8 +4991,12 @@ function resetSistema(){
 
 
     sistema.erroFatal=false;
-
     sistema.motivoFatal="";
+
+
+    sistema.releSegurancaRetorno=true;
+    sistema.retornoRedeBloqueado=false;
+    sistema.retornoRedeEmCurso=false;
 
 
     sistema.partidaAutomaticaEmCurso=false;
@@ -4475,6 +5024,12 @@ function resetSistema(){
 
     evento(
         "✓ REDE — TENSÃO PRESENTE",
+        "ok"
+    );
+
+
+    evento(
+        "✓ RELÉ DE SEGURANÇA — RETORNO LIBERADO",
         "ok"
     );
 
@@ -4523,48 +5078,50 @@ evento(
     "ok"
 );
 
-
 evento(
     "✓ REDE DA CONCESSIONÁRIA — TENSÃO PRESENTE",
     "ok"
 );
 
+evento(
+    "✓ RELÉ DE SEGURANÇA — RETORNO DA REDE LIBERADO",
+    "ok"
+);
 
 evento(
     "✓ DJREDE — FECHADO",
     "ok"
 );
 
-
 evento(
     "✓ DJG1 — ABERTO",
     "ok"
 );
-
 
 evento(
     "✓ DJG2 — ABERTO",
     "ok"
 );
 
-
 evento(
     "✓ DJU — FECHADO",
     "ok"
 );
-
 
 evento(
     "✓ BYPASS — DESATIVADO / CAMINHO HORIZONTAL ISOLADO",
     "ok"
 );
 
-
 evento(
     "✓ MODO AUTOMÁTICO ATIVO",
     "ok"
 );
 
+evento(
+    "✓ PRIORIDADE DA REDE — RETORNO AUTOMÁTICO SUPERVISIONADO PELO RELÉ DE SEGURANÇA",
+    "ok"
+);
 
 evento(
     "✓ MONITORAMENTO DE REDE / GMGs / PARALELISMO ATIVO",
