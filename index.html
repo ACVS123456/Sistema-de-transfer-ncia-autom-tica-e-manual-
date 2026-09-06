@@ -2,20 +2,91 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>Simulador QTA - REDE + GMG1 + GMG2</title>
+<title>QTA PRO — REDE + GMG1 + GMG2 + BYPASS</title>
 
 <style>
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
     margin:0;
     font-family:Arial,Helvetica,sans-serif;
     background:#07111f;
     color:#e5e7eb;
+}
+
+body.fatal-active{
+    animation:fatalFlash .45s infinite alternate;
+}
+
+@keyframes fatalFlash{
+    from{box-shadow:inset 0 0 0 0 rgba(255,0,0,0)}
+    to{box-shadow:inset 0 0 0 9px rgba(255,0,0,.95)}
+}
+
+#fatalOverlay{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:rgba(150,0,0,.76);
+    backdrop-filter:blur(4px);
+    padding:20px;
+    pointer-events:none;
+}
+
+#fatalOverlay.active{
+    display:flex;
+    animation:fatalOverlayFlash .45s infinite alternate;
+}
+
+@keyframes fatalOverlayFlash{
+    from{background:rgba(130,0,0,.72)}
+    to{background:rgba(255,0,0,.84)}
+}
+
+.fatal-box{
+    width:min(850px,95vw);
+    background:#190000;
+    border:7px solid #ff0000;
+    border-radius:18px;
+    padding:35px;
+    text-align:center;
+    box-shadow:0 0 30px #ff0000,0 0 90px rgba(255,0,0,.9);
+}
+
+.fatal-icon{font-size:70px}
+
+.fatal-title{
+    font-size:42px;
+    font-weight:900;
+    margin:12px 0;
+}
+
+.fatal-subtitle{
+    font-size:21px;
+    font-weight:bold;
+}
+
+.fatal-detail{
+    margin-top:20px;
+    padding:18px;
+    border:2px solid #ff3333;
+    background:#350000;
+    border-radius:10px;
+    line-height:1.6;
+}
+
+.fatal-reset{
+    width:280px;
+    background:#000;
+    color:#fff;
+    border:2px solid #fff;
+    margin-top:20px;
+    pointer-events:auto;
 }
 
 header{
@@ -28,7 +99,6 @@ header{
 header h1{
     margin:0;
     font-size:25px;
-    color:#fff;
 }
 
 header p{
@@ -38,72 +108,50 @@ header p{
 
 .container{
     width:96%;
-    max-width:1450px;
+    max-width:1500px;
     margin:18px auto;
 }
 
-/* STATUS */
-
 .status-grid{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:repeat(5,1fr);
     gap:12px;
 }
 
-.status{
+.status,.card{
     background:#0d1b2d;
     border:1px solid #263a52;
     border-radius:10px;
-    padding:15px;
+    padding:14px;
 }
 
 .status-title{
-    font-size:12px;
+    font-size:11px;
     color:#94a3b8;
     text-transform:uppercase;
 }
 
 .status-value{
-    font-size:20px;
+    font-size:19px;
     font-weight:bold;
     margin-top:6px;
 }
 
-.ok{
-    color:#22c55e;
-}
-
-.off{
-    color:#ef4444;
-}
-
-.warn{
-    color:#f59e0b;
-}
-
-.info{
-    color:#38bdf8;
-}
-
-/* CONTROLES */
+.ok{color:#22c55e!important}
+.off{color:#ef4444!important}
+.warn{color:#f59e0b!important}
+.info{color:#38bdf8!important}
 
 .controls{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:repeat(5,1fr);
     gap:12px;
     margin-top:15px;
 }
 
-.card{
-    background:#0d1b2d;
-    border:1px solid #263a52;
-    border-radius:10px;
-    padding:15px;
-}
-
 .card h2{
     margin:0 0 12px;
-    font-size:17px;
+    font-size:16px;
     border-bottom:1px solid #263a52;
     padding-bottom:9px;
 }
@@ -117,34 +165,18 @@ button{
     font-weight:bold;
     cursor:pointer;
     background:#24364d;
-    color:#fff;
+    color:white;
 }
 
-button:hover{
-    filter:brightness(1.15);
-}
+button:hover{filter:brightness(1.18)}
 
-.btn-red{
-    background:#991b1b;
-}
-
-.btn-green{
-    background:#166534;
-}
-
-.btn-blue{
-    background:#075985;
-}
-
-.btn-orange{
-    background:#92400e;
-}
-
-.btn-gray{
-    background:#334155;
-}
-
-/* DIAGRAMA */
+.btn-red{background:#991b1b}
+.btn-green{background:#166534}
+.btn-blue{background:#075985}
+.btn-orange{background:#92400e}
+.btn-purple{background:#6d28d9}
+.btn-gray{background:#334155}
+.btn-yellow{background:#a16207}
 
 .diagram-card{
     margin-top:15px;
@@ -163,12 +195,14 @@ button:hover{
 }
 
 .diagram{
-    min-width:1100px;
+    min-width:1250px;
     position:relative;
-    height:650px;
+    height:800px;
 }
 
-/* FONTES */
+/* ===============================
+   FONTES
+================================ */
 
 .source{
     position:absolute;
@@ -178,40 +212,45 @@ button:hover{
     border-radius:10px;
     background:#111e30;
     text-align:center;
+    transition:.25s;
 }
 
-.source h3{
-    margin:0 0 8px;
+.source.energized{
+    border-color:#22c55e;
+    box-shadow:
+        0 0 12px rgba(34,197,94,.45),
+        inset 0 0 15px rgba(34,197,94,.08);
 }
+
+.source h3{margin:0 0 8px}
 
 .source-status{
     font-size:13px;
     font-weight:bold;
 }
 
-/* POSIÇÕES */
-
-.rede{
-    left:30px;
-    top:60px;
+.generator-state{
+    margin-top:8px;
+    padding:7px;
+    border-radius:5px;
+    background:#1e293b;
+    font-size:12px;
 }
 
-.gmg1{
-    left:30px;
-    top:265px;
-}
+.rede{left:30px;top:60px}
+.gmg1{left:30px;top:290px}
+.gmg2{left:30px;top:520px}
 
-.gmg2{
-    left:30px;
-    top:470px;
-}
+/* ===============================
+   QTA
+================================ */
 
 .qta{
     position:absolute;
-    left:455px;
-    top:195px;
-    width:250px;
-    height:250px;
+    left:470px;
+    top:225px;
+    width:270px;
+    height:270px;
     border:3px solid #64748b;
     border-radius:14px;
     background:#111827;
@@ -220,6 +259,7 @@ button:hover{
     align-items:center;
     justify-content:center;
     box-shadow:0 0 25px rgba(0,0,0,.4);
+    transition:.3s;
 }
 
 .qta h2{
@@ -229,14 +269,42 @@ button:hover{
 
 .qta small{
     color:#94a3b8;
+    text-align:center;
 }
 
-/* CARGAS */
+.qta.bypass-isolated{
+    border-color:#f59e0b;
+    box-shadow:
+        0 0 20px rgba(245,158,11,.35),
+        inset 0 0 15px rgba(245,158,11,.06);
+}
+
+.qta-lamp{
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    background:#ef4444;
+    margin-top:15px;
+}
+
+.qta-lamp.active{
+    background:#22c55e;
+    box-shadow:0 0 18px #22c55e;
+}
+
+.qta-lamp.fatal{
+    background:#ff0000;
+    box-shadow:0 0 20px #ff0000;
+}
+
+/* ===============================
+   CARGAS
+================================ */
 
 .cargas{
     position:absolute;
     right:30px;
-    top:250px;
+    top:290px;
     width:190px;
     height:140px;
     border:3px solid #475569;
@@ -246,86 +314,146 @@ button:hover{
     align-items:center;
     justify-content:center;
     flex-direction:column;
+    transition:.25s;
 }
 
-.cargas h2{
-    margin:0 0 10px;
+.cargas.energized{
+    border-color:#22c55e;
+    box-shadow:0 0 15px rgba(34,197,94,.4);
 }
 
-/* LINHAS */
+.cargas.bypass-load{
+    border-color:#38bdf8;
+    box-shadow:0 0 18px rgba(56,189,248,.45);
+}
+
+.cargas h2{margin:0 0 10px}
+
+/* ===============================
+   LINHAS PRINCIPAIS
+================================ */
 
 .line{
     position:absolute;
     height:8px;
     background:#334155;
     border-radius:5px;
-    transition:.4s;
+    transition:.25s;
 }
 
 .line.active{
     background:#22c55e;
-    box-shadow:0 0 15px rgba(34,197,94,.8);
+    box-shadow:0 0 15px rgba(34,197,94,.9);
 }
 
-.line-danger{
-    background:#ef4444;
+.line.fatal{
+    background:#ff0000;
+    box-shadow:0 0 18px #ff0000;
 }
 
-.line1{
+.lineRede{
     left:210px;
     top:105px;
-    width:245px;
+    width:260px;
 }
 
-.line2{
+.lineGMG1{
     left:210px;
-    top:310px;
-    width:245px;
+    top:335px;
+    width:260px;
 }
 
-.line3{
+.lineGMG2{
     left:210px;
-    top:515px;
-    width:245px;
+    top:565px;
+    width:260px;
 }
 
-.line-out{
-    left:705px;
-    top:310px;
-    width:205px;
+.lineOut{
+    left:740px;
+    top:335px;
+    width:240px;
 }
 
-/* VERTICAL */
+/* ===============================
+   CAMINHO HORIZONTAL BYPASS
+================================ */
+
+.lineBypass{
+    position:absolute;
+    left:210px;
+    top:675px;
+    width:770px;
+    height:10px;
+    background:#334155;
+    border-radius:6px;
+    transition:.3s;
+}
+
+.lineBypass.active{
+    background:#22c55e;
+    box-shadow:
+        0 0 10px #22c55e,
+        0 0 22px rgba(34,197,94,.8);
+}
+
+.lineBypass.warn{
+    background:#f59e0b;
+    box-shadow:0 0 15px #f59e0b;
+}
+
+/* conexão vertical da fonte selecionada
+   até o caminho horizontal */
+
+.bypassFeed{
+    position:absolute;
+    left:465px;
+    top:565px;
+    width:8px;
+    height:110px;
+    background:#334155;
+    border-radius:5px;
+}
+
+.bypassFeed.active{
+    background:#22c55e;
+    box-shadow:0 0 15px #22c55e;
+}
+
+/* ===============================
+   LINHAS VERTICAIS
+================================ */
+
+.vertical1,.vertical2{
+    position:absolute;
+    left:465px;
+    width:8px;
+    background:#334155;
+}
 
 .vertical1{
-    position:absolute;
-    left:450px;
     top:105px;
-    width:8px;
-    height:205px;
-    background:#334155;
+    height:230px;
 }
 
 .vertical2{
-    position:absolute;
-    left:450px;
-    top:310px;
-    width:8px;
-    height:205px;
-    background:#334155;
+    top:335px;
+    height:230px;
 }
 
 .vertical1.active,
 .vertical2.active{
     background:#22c55e;
-    box-shadow:0 0 15px rgba(34,197,94,.8);
+    box-shadow:0 0 15px rgba(34,197,94,.9);
 }
 
-/* DISJUNTORES */
+/* ===============================
+   DISJUNTORES
+================================ */
 
 .breaker{
     position:absolute;
-    width:110px;
+    width:115px;
     padding:9px;
     background:#172235;
     border:2px solid #475569;
@@ -346,84 +474,235 @@ button:hover{
     vertical-align:middle;
 }
 
-.breaker.closed{
-    border-color:#22c55e;
-}
+.breaker.closed{border-color:#22c55e}
 
 .breaker.closed .lamp{
     background:#22c55e;
     box-shadow:0 0 10px #22c55e;
 }
 
-.djrede{
-    left:285px;
-    top:72px;
+.breaker.fatal{
+    border-color:#ff0000;
+    background:#450000;
+    box-shadow:0 0 20px #ff0000;
 }
 
-.djg1{
-    left:285px;
-    top:277px;
-}
+.breaker.fatal .lamp{background:#ff0000}
 
-.djg2{
-    left:285px;
-    top:482px;
-}
+.djrede{left:285px;top:72px}
+.djg1{left:285px;top:302px}
+.djg2{left:285px;top:532px}
+.dju{left:805px;top:300px}
 
-.dju{
-    left:760px;
-    top:275px;
-}
-
-/* BYPASS */
+/* ===============================
+   BYPASS VISUAL
+================================ */
 
 .bypass{
     position:absolute;
-    left:455px;
-    top:525px;
-    width:250px;
-    height:70px;
-    border:2px dashed #f59e0b;
+    left:470px;
+    top:610px;
+    width:270px;
+    height:65px;
+    border:2px dashed #64748b;
     border-radius:8px;
     display:flex;
     align-items:center;
     justify-content:center;
-    color:#f59e0b;
+    flex-direction:column;
+    gap:4px;
+    color:#64748b;
     font-weight:bold;
+    text-align:center;
+    transition:.25s;
+    background:#0f172a;
 }
 
-/* QTA INDICADOR */
+.bypass.active{
+    border-color:#22c55e;
+    color:#22c55e;
+    background:rgba(34,197,94,.06);
+    box-shadow:
+        0 0 18px rgba(34,197,94,.4),
+        inset 0 0 12px rgba(34,197,94,.08);
+}
 
-.qta-lamp{
-    width:25px;
-    height:25px;
-    border-radius:50%;
-    background:#ef4444;
+.bypass.open{
+    border-color:#f59e0b;
+    color:#f59e0b;
+}
+
+.bypass small{
+    font-size:10px;
+    opacity:.85;
+}
+
+.bypassCut{
+    display:none;
+}
+
+/* ===============================
+   CONTROLES DISJUNTORES
+================================ */
+
+.breaker-controls{
     margin-top:15px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
 }
 
-.qta-lamp.active{
-    background:#22c55e;
-    box-shadow:0 0 18px #22c55e;
+.breaker-control{
+    background:#111827;
+    border:1px solid #334155;
+    border-radius:8px;
+    padding:10px;
 }
 
-/* GERADORES */
+.breaker-control h3{
+    margin:0 0 8px;
+    font-size:13px;
+}
 
-.generator-state{
-    margin-top:8px;
+.breaker-control-state{
+    text-align:center;
     padding:7px;
-    border-radius:5px;
-    background:#1e293b;
+    background:#172235;
+    border-radius:6px;
+    font-weight:bold;
     font-size:12px;
 }
 
-/* PAINEL INFERIOR */
+.cmd-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+}
+
+.cmd-row button{font-size:11px}
+
+/* ===============================
+   PAINEL BYPASS
+================================ */
+
+.bypass-panel{
+    margin-top:15px;
+    padding:12px;
+    border:1px solid #334155;
+    border-radius:8px;
+    background:#111827;
+}
+
+.bypass-state{
+    padding:12px;
+    border-radius:7px;
+    text-align:center;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.bypass-state.off{
+    background:#3b2605;
+    color:#f59e0b!important;
+    border:1px solid #a16207;
+}
+
+.bypass-state.on{
+    background:#052e16;
+    color:#22c55e!important;
+    border:1px solid #166534;
+}
+
+.bypass-info{
+    margin-top:8px;
+    padding:9px;
+    background:#07111f;
+    border-radius:6px;
+    text-align:center;
+    font-size:12px;
+}
+
+/* ===============================
+   INFERIOR
+================================ */
 
 .bottom-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:15px;
     margin-top:15px;
+}
+
+.permissives{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:7px;
+    margin-top:12px;
+}
+
+.permission{
+    padding:8px;
+    border-radius:6px;
+    background:#111827;
+    border:1px solid #334155;
+    font-size:11px;
+}
+
+.permission.ok{border-color:#166534}
+.permission.bad{border-color:#991b1b;color:#f87171}
+.permission.fatal{
+    border-color:#ff0000;
+    color:#ff3333;
+    background:#350000;
+}
+
+.signal{
+    display:inline-block;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    margin-right:5px;
+    background:#ef4444;
+}
+
+.signal.green{
+    background:#22c55e;
+    box-shadow:0 0 7px #22c55e;
+}
+
+.mode-indicator{
+    margin-top:10px;
+    padding:10px;
+    border-radius:7px;
+    background:#111827;
+    text-align:center;
+    font-weight:bold;
+}
+
+.mode-indicator.auto{
+    color:#38bdf8;
+    border:1px solid #075985;
+}
+
+.mode-indicator.manual{
+    color:#f59e0b;
+    border:1px solid #92400e;
+}
+
+.emergency-box{
+    margin-top:10px;
+    padding:10px;
+    text-align:center;
+    border-radius:7px;
+    background:#111827;
+    color:#22c55e;
+    border:1px solid #166534;
+    font-weight:bold;
+}
+
+.emergency-box.active{
+    color:#ef4444;
+    border-color:#991b1b;
 }
 
 .breaker-table{
@@ -453,7 +732,7 @@ button:hover{
 }
 
 .events{
-    height:260px;
+    height:300px;
     overflow-y:auto;
     background:#07111f;
     border-radius:7px;
@@ -467,30 +746,47 @@ button:hover{
     border-bottom:1px solid #1e293b;
 }
 
-.event-time{
-    color:#64748b;
+.event-time{color:#64748b}
+.event-ok{color:#4ade80}
+.event-warning{color:#fbbf24}
+.event-error{color:#f87171;font-weight:bold}
+.event-info{color:#38bdf8}
+
+.logic-box{
+    margin-top:12px;
+    padding:12px;
+    border:1px solid #334155;
+    border-radius:8px;
+    background:#111827;
+    font-size:12px;
+    line-height:1.6;
 }
 
-.event-ok{
-    color:#4ade80;
+.logic-box strong{color:#38bdf8}
+
+.auto-sequence{
+    margin-top:10px;
+    padding:10px;
+    background:#07111f;
+    border:1px solid #263a52;
+    border-radius:7px;
+    font-size:12px;
+    line-height:1.6;
 }
 
-.event-warning{
-    color:#fbbf24;
-}
-
-.event-error{
-    color:#f87171;
-}
-
-/* RESPONSIVO */
-
-@media(max-width:900px){
+@media(max-width:1100px){
 
     .status-grid,
-    .controls,
+    .controls{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .breaker-controls{
+        grid-template-columns:repeat(2,1fr);
+    }
+
     .bottom-grid{
-        grid-template-columns:1fr 1fr;
+        grid-template-columns:1fr;
     }
 }
 
@@ -498,400 +794,1066 @@ button:hover{
 
     .status-grid,
     .controls,
-    .bottom-grid{
+    .breaker-controls{
         grid-template-columns:1fr;
     }
 
-    header h1{
-        font-size:20px;
-    }
+    header h1{font-size:20px}
+
+    .fatal-title{font-size:30px}
+
+    .fatal-subtitle{font-size:17px}
 }
 </style>
 </head>
 
 <body>
 
-<header>
-    <h1>⚡ QTA — TRANSFERÊNCIA AUTOMÁTICA</h1>
-    <p>REDE + GMG1 + GMG2 • Simulador de lógica de transferência</p>
-</header>
+<!-- =====================================================
+     ERRO FATAL
+===================================================== -->
 
-<div class="container">
+<div id="fatalOverlay">
 
-    <!-- STATUS -->
+    <div class="fatal-box">
 
-    <div class="status-grid">
+        <div class="fatal-icon">⚠️</div>
 
-        <div class="status">
-            <div class="status-title">Fonte atual</div>
-            <div id="fonteAtual" class="status-value info">
-                REDE
-            </div>
+        <div class="fatal-title">
+            ERRO FATAL
         </div>
 
-        <div class="status">
-            <div class="status-title">Estado da REDE</div>
-            <div id="redeStatus" class="status-value ok">
-                NORMAL
-            </div>
+        <div class="fatal-subtitle">
+            PARALELISMO INDEVIDO / CONDIÇÃO ELÉTRICA INSEGURA
         </div>
 
-        <div class="status">
-            <div class="status-title">GMG1</div>
-            <div id="gmg1Status" class="status-value">
-                STANDBY
-            </div>
-        </div>
+        <div id="fatalDetail" class="fatal-detail"></div>
 
-        <div class="status">
-            <div class="status-title">GMG2</div>
-            <div id="gmg2Status" class="status-value">
-                STANDBY
-            </div>
-        </div>
+        <button class="fatal-reset"
+                onclick="reconhecerErroFatal()">
 
-    </div>
+            RECONHECER / RESETAR ALARME
 
-    <!-- CONTROLES -->
-
-    <div class="controls">
-
-        <div class="card">
-
-            <h2>⚡ REDE</h2>
-
-            <button class="btn-green" onclick="falhaRede()">
-                SIMULAR FALTA DE REDE
-            </button>
-
-            <button class="btn-blue" onclick="restaurarRede()">
-                RESTABELECER REDE
-            </button>
-
-        </div>
-
-
-        <div class="card">
-
-            <h2>⚙️ GMG1</h2>
-
-            <button class="btn-green" onclick="partirGMG1()">
-                PARTIDA GMG1
-            </button>
-
-            <button class="btn-red" onclick="falharGMG1()">
-                SIMULAR FALHA GMG1
-            </button>
-
-            <button class="btn-gray" onclick="pararGMG1()">
-                PARAR GMG1
-            </button>
-
-        </div>
-
-
-        <div class="card">
-
-            <h2>⚙️ GMG2</h2>
-
-            <button class="btn-green" onclick="partirGMG2()">
-                PARTIDA GMG2
-            </button>
-
-            <button class="btn-red" onclick="falharGMG2()">
-                SIMULAR FALHA GMG2
-            </button>
-
-            <button class="btn-gray" onclick="pararGMG2()">
-                PARAR GMG2
-            </button>
-
-        </div>
-
-
-        <div class="card">
-
-            <h2>🔧 SISTEMA</h2>
-
-            <button class="btn-orange" onclick="toggleBypass()">
-                BYPASS QTA
-            </button>
-
-            <button class="btn-gray" onclick="resetSistema()">
-                RESET SISTEMA
-            </button>
-
-            <button class="btn-red" onclick="emergencia()">
-                PARADA DE EMERGÊNCIA
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- DIAGRAMA -->
-
-    <div class="diagram-card">
-
-        <div class="diagram-title">
-            DIAGRAMA DE POTÊNCIA — REDE / GMG1 / GMG2
-        </div>
-
-        <div class="diagram">
-
-            <!-- LINHAS -->
-
-            <div id="lineRede" class="line line1"></div>
-            <div id="lineGMG1" class="line line2"></div>
-            <div id="lineGMG2" class="line line3"></div>
-
-            <div id="vertical1" class="vertical1"></div>
-            <div id="vertical2" class="vertical2"></div>
-
-            <div id="lineOut" class="line line-out"></div>
-
-
-            <!-- REDE -->
-
-            <div class="source rede">
-
-                <h3>⚡ REDE</h3>
-
-                <div id="redeFonte" class="source-status ok">
-                    NORMAL
-                </div>
-
-            </div>
-
-
-            <!-- GMG1 -->
-
-            <div class="source gmg1">
-
-                <h3>⚙️ GMG1</h3>
-
-                <div id="gmg1Fonte" class="source-status">
-                    STANDBY
-                </div>
-
-                <div id="gmg1GenState"
-                     class="generator-state">
-                    MOTOR PARADO
-                </div>
-
-            </div>
-
-
-            <!-- GMG2 -->
-
-            <div class="source gmg2">
-
-                <h3>⚙️ GMG2</h3>
-
-                <div id="gmg2Fonte" class="source-status">
-                    STANDBY
-                </div>
-
-                <div id="gmg2GenState"
-                     class="generator-state">
-                    MOTOR PARADO
-                </div>
-
-            </div>
-
-
-            <!-- DISJUNTORES -->
-
-            <div id="djrede"
-                 class="breaker djrede">
-
-                <span class="lamp"></span>
-                DJREDE
-                <br>
-                <span class="breaker-state">
-                    ABERTO
-                </span>
-
-            </div>
-
-
-            <div id="djg1"
-                 class="breaker djg1">
-
-                <span class="lamp"></span>
-                DJG1
-                <br>
-                <span class="breaker-state">
-                    ABERTO
-                </span>
-
-            </div>
-
-
-            <div id="djg2"
-                 class="breaker djg2">
-
-                <span class="lamp"></span>
-                DJG2
-                <br>
-                <span class="breaker-state">
-                    ABERTO
-                </span>
-
-            </div>
-
-
-            <!-- QTA -->
-
-            <div class="qta">
-
-                <h2>QTA</h2>
-
-                <small>
-                    QUADRO DE TRANSFERÊNCIA
-                    AUTOMÁTICA
-                </small>
-
-                <div id="qtaLamp"
-                     class="qta-lamp active">
-                </div>
-
-                <small id="qtaEstado">
-                    REDE ALIMENTANDO
-                </small>
-
-            </div>
-
-
-            <!-- DJU -->
-
-            <div id="dju"
-                 class="breaker dju">
-
-                <span class="lamp"></span>
-                DJU
-                <br>
-                <span class="breaker-state">
-                    FECHADO
-                </span>
-
-            </div>
-
-
-            <!-- CARGAS -->
-
-            <div class="cargas">
-
-                <h2>🏭 CARGAS</h2>
-
-                <div id="cargaStatus"
-                     class="source-status ok">
-                    ALIMENTADA
-                </div>
-
-            </div>
-
-
-            <!-- BYPASS -->
-
-            <div id="bypass"
-                 class="bypass">
-
-                BYPASS QTA: DESATIVADO
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- TABELA + EVENTOS -->
-
-    <div class="bottom-grid">
-
-        <div class="card">
-
-            <h2>🔌 ESTADO DOS DISJUNTORES</h2>
-
-            <table class="breaker-table">
-
-                <thead>
-                    <tr>
-                        <th>Disjuntor</th>
-                        <th>Estado</th>
-                        <th>Função</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    <tr>
-                        <td>DJREDE</td>
-                        <td id="tableDJREDE">
-                            <span class="dot green"></span>
-                            FECHADO
-                        </td>
-                        <td>Entrada REDE</td>
-                    </tr>
-
-                    <tr>
-                        <td>DJG1</td>
-                        <td id="tableDJG1">
-                            <span class="dot"></span>
-                            ABERTO
-                        </td>
-                        <td>GMG1</td>
-                    </tr>
-
-                    <tr>
-                        <td>DJG2</td>
-                        <td id="tableDJG2">
-                            <span class="dot"></span>
-                            ABERTO
-                        </td>
-                        <td>GMG2</td>
-                    </tr>
-
-                    <tr>
-                        <td>DJU</td>
-                        <td id="tableDJU">
-                            <span class="dot green"></span>
-                            FECHADO
-                        </td>
-                        <td>Saída para cargas</td>
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-
-        <div class="card">
-
-            <h2>📋 HISTÓRICO DE EVENTOS</h2>
-
-            <div id="events"
-                 class="events">
-            </div>
-
-        </div>
+        </button>
 
     </div>
 
 </div>
 
+<!-- =====================================================
+     CABEÇALHO
+===================================================== -->
+
+<header>
+
+<h1>
+⚡ QTA PRO — TRANSFERÊNCIA AUTOMÁTICA
+</h1>
+
+<p>
+REDE + GMG1 + GMG2 • BYPASS-ISOLATION • AUTO/MANUAL • EMERGÊNCIA • RESTABELECIMENTO
+</p>
+
+</header>
+
+<div class="container">
+
+<!-- =====================================================
+     STATUS
+===================================================== -->
+
+<div class="status-grid">
+
+<div class="status">
+
+<div class="status-title">
+Fonte atual
+</div>
+
+<div id="fonteAtual"
+     class="status-value info">
+REDE
+</div>
+
+</div>
+
+
+<div class="status">
+
+<div class="status-title">
+REDE
+</div>
+
+<div id="redeStatus"
+     class="status-value ok">
+
+NORMAL — TENSÃO PRESENTE
+
+</div>
+
+</div>
+
+
+<div class="status">
+
+<div class="status-title">
+GMG1
+</div>
+
+<div id="gmg1Status"
+     class="status-value warn">
+
+STANDBY
+
+</div>
+
+</div>
+
+
+<div class="status">
+
+<div class="status-title">
+GMG2
+</div>
+
+<div id="gmg2Status"
+     class="status-value warn">
+
+STANDBY
+
+</div>
+
+</div>
+
+
+<div class="status">
+
+<div class="status-title">
+Modo
+</div>
+
+<div id="modoStatus"
+     class="status-value info">
+
+AUTOMÁTICO
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     CONTROLES
+===================================================== -->
+
+<div class="controls">
+
+<!-- REDE -->
+
+<div class="card">
+
+<h2>⚡ REDE</h2>
+
+<button class="btn-red"
+        onclick="falhaRede()">
+
+SIMULAR FALTA DE REDE
+
+</button>
+
+<button class="btn-blue"
+        onclick="restaurarRede()">
+
+RESTABELECER REDE
+
+</button>
+
+</div>
+
+
+<!-- GMG1 -->
+
+<div class="card">
+
+<h2>⚙️ GMG1</h2>
+
+<button class="btn-green"
+        onclick="partirGMG1()">
+
+▶ PARTIDA GMG1
+
+</button>
+
+<button class="btn-red"
+        onclick="falharGMG1()">
+
+⚠ SIMULAR FALHA
+
+</button>
+
+<button class="btn-gray"
+        onclick="pararGMG1()">
+
+■ PARAR GMG1
+
+</button>
+
+<button class="btn-blue"
+        onclick="transferirManual('GMG1')">
+
+TRANSFERIR GMG1
+
+</button>
+
+</div>
+
+
+<!-- GMG2 -->
+
+<div class="card">
+
+<h2>⚙️ GMG2</h2>
+
+<button class="btn-green"
+        onclick="partirGMG2()">
+
+▶ PARTIDA GMG2
+
+</button>
+
+<button class="btn-red"
+        onclick="falharGMG2()">
+
+⚠ SIMULAR FALHA
+
+</button>
+
+<button class="btn-gray"
+        onclick="pararGMG2()">
+
+■ PARAR GMG2
+
+</button>
+
+<button class="btn-blue"
+        onclick="transferirManual('GMG2')">
+
+TRANSFERIR GMG2
+
+</button>
+
+</div>
+
+
+<!-- SISTEMA -->
+
+<div class="card">
+
+<h2>🔧 SISTEMA</h2>
+
+<button class="btn-green"
+        onclick="ativarBypass()">
+
+🟢 ATIVAR BYPASS
+
+</button>
+
+<button class="btn-orange"
+        onclick="desativarBypass()">
+
+🟠 DESATIVAR BYPASS
+
+</button>
+
+<button class="btn-purple"
+        onclick="alternarModo()">
+
+AUTO / MANUAL
+
+</button>
+
+<button class="btn-red"
+        onclick="emergencia()">
+
+🛑 PARADA DE EMERGÊNCIA
+
+</button>
+
+<button class="btn-green"
+        onclick="resetEmergencia()">
+
+↻ RESET EMERGÊNCIA
+
+</button>
+
+</div>
+
+
+<!-- CONTROLE -->
+
+<div class="card">
+
+<h2>🔄 CONTROLE</h2>
+
+<button class="btn-gray"
+        onclick="resetSistema()">
+
+RESET GERAL
+
+</button>
+
+<div id="modoBox"
+     class="mode-indicator auto">
+
+MODO AUTOMÁTICO
+
+</div>
+
+<div id="emergencyBox"
+     class="emergency-box">
+
+✓ SISTEMA LIBERADO
+
+</div>
+
+<div id="autoSequence"
+     class="auto-sequence">
+
+SEQUÊNCIA: MONITORAMENTO NORMAL
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     DIAGRAMA
+===================================================== -->
+
+<div class="diagram-card">
+
+<div class="diagram-title">
+
+DIAGRAMA DE POTÊNCIA E COMANDO
+
+</div>
+
+<div class="diagram">
+
+<!-- LINHAS FONTES -->
+
+<div id="lineRede"
+     class="line lineRede">
+</div>
+
+<div id="lineGMG1"
+     class="line lineGMG1">
+</div>
+
+<div id="lineGMG2"
+     class="line lineGMG2">
+</div>
+
+<!-- SAÍDA QTA -->
+
+<div id="lineOut"
+     class="line lineOut">
+</div>
+
+
+<!-- CAMINHO HORIZONTAL BYPASS -->
+
+<div id="lineBypass"
+     class="lineBypass">
+</div>
+
+<div id="bypassFeed"
+     class="bypassFeed">
+</div>
+
+
+<!-- VERTICAIS -->
+
+<div id="vertical1"
+     class="vertical1">
+</div>
+
+<div id="vertical2"
+     class="vertical2">
+</div>
+
+
+<!-- REDE -->
+
+<div id="sourceRede"
+     class="source rede">
+
+<h3>⚡ REDE</h3>
+
+<div id="redeFonte"
+     class="source-status ok">
+
+NORMAL — TENSÃO PRESENTE
+
+</div>
+
+<div class="generator-state">
+
+FONTE DA CONCESSIONÁRIA
+
+</div>
+
+</div>
+
+
+<!-- GMG1 -->
+
+<div id="sourceGMG1"
+     class="source gmg1">
+
+<h3>⚙️ GMG1</h3>
+
+<div id="gmg1Fonte"
+     class="source-status">
+
+STANDBY
+
+</div>
+
+<div id="gmg1GenState"
+     class="generator-state">
+
+MOTOR PARADO
+
+</div>
+
+</div>
+
+
+<!-- GMG2 -->
+
+<div id="sourceGMG2"
+     class="source gmg2">
+
+<h3>⚙️ GMG2</h3>
+
+<div id="gmg2Fonte"
+     class="source-status">
+
+STANDBY
+
+</div>
+
+<div id="gmg2GenState"
+     class="generator-state">
+
+MOTOR PARADO
+
+</div>
+
+</div>
+
+
+<!-- DJREDE -->
+
+<div id="djrede"
+     class="breaker djrede">
+
+<span class="lamp"></span>
+
+DJREDE
+
+<br>
+
+<span class="breaker-state">
+
+FECHADO
+
+</span>
+
+</div>
+
+
+<!-- DJG1 -->
+
+<div id="djg1"
+     class="breaker djg1">
+
+<span class="lamp"></span>
+
+DJG1
+
+<br>
+
+<span class="breaker-state">
+
+ABERTO
+
+</span>
+
+</div>
+
+
+<!-- DJG2 -->
+
+<div id="djg2"
+     class="breaker djg2">
+
+<span class="lamp"></span>
+
+DJG2
+
+<br>
+
+<span class="breaker-state">
+
+ABERTO
+
+</span>
+
+</div>
+
+
+<!-- QTA -->
+
+<div id="qta"
+     class="qta">
+
+<h2>QTA</h2>
+
+<small>
+QUADRO DE TRANSFERÊNCIA AUTOMÁTICA
+</small>
+
+<div id="qtaLamp"
+     class="qta-lamp active">
+</div>
+
+<small id="qtaEstado">
+
+REDE ALIMENTANDO
+
+</small>
+
+</div>
+
+
+<!-- DJU -->
+
+<div id="dju"
+     class="breaker dju">
+
+<span class="lamp"></span>
+
+DJU
+
+<br>
+
+<span class="breaker-state">
+
+FECHADO
+
+</span>
+
+</div>
+
+
+<!-- CARGAS -->
+
+<div id="cargas"
+     class="cargas">
+
+<h2>🏭 CARGAS</h2>
+
+<div id="cargaStatus"
+     class="source-status ok">
+
+ALIMENTADA
+
+</div>
+
+</div>
+
+
+<!-- BYPASS -->
+
+<div id="bypass"
+     class="bypass open">
+
+<span id="bypassSignal">
+
+BYPASS DESATIVADO
+
+</span>
+
+<small id="bypassPath">
+
+CAMINHO HORIZONTAL ISOLADO
+
+</small>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     CONTROLE INDIVIDUAL
+===================================================== -->
+
+<div class="card"
+     style="margin-top:15px">
+
+<h2>
+🔌 COMANDO INDIVIDUAL DOS DISJUNTORES
+</h2>
+
+<div class="breaker-controls">
+
+<!-- DJREDE -->
+
+<div class="breaker-control">
+
+<h3>DJREDE</h3>
+
+<div id="cmdStateRede"
+     class="breaker-control-state">
+
+FECHADO
+
+</div>
+
+<div class="cmd-row">
+
+<button class="btn-green"
+        onclick="comandarDisjuntor('DJREDE',true)">
+
+FECHAR
+
+</button>
+
+<button class="btn-red"
+        onclick="comandarDisjuntor('DJREDE',false)">
+
+ABRIR
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- DJG1 -->
+
+<div class="breaker-control">
+
+<h3>DJG1</h3>
+
+<div id="cmdStateG1"
+     class="breaker-control-state">
+
+ABERTO
+
+</div>
+
+<div class="cmd-row">
+
+<button class="btn-green"
+        onclick="comandarDisjuntor('DJG1',true)">
+
+FECHAR
+
+</button>
+
+<button class="btn-red"
+        onclick="comandarDisjuntor('DJG1',false)">
+
+ABRIR
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- DJG2 -->
+
+<div class="breaker-control">
+
+<h3>DJG2</h3>
+
+<div id="cmdStateG2"
+     class="breaker-control-state">
+
+ABERTO
+
+</div>
+
+<div class="cmd-row">
+
+<button class="btn-green"
+        onclick="comandarDisjuntor('DJG2',true)">
+
+FECHAR
+
+</button>
+
+<button class="btn-red"
+        onclick="comandarDisjuntor('DJG2',false)">
+
+ABRIR
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- DJU -->
+
+<div class="breaker-control">
+
+<h3>DJU</h3>
+
+<div id="cmdStateU"
+     class="breaker-control-state">
+
+FECHADO
+
+</div>
+
+<div class="cmd-row">
+
+<button class="btn-green"
+        onclick="comandarDisjuntor('DJU',true)">
+
+FECHAR
+
+</button>
+
+<button class="btn-red"
+        onclick="comandarDisjuntor('DJU',false)">
+
+ABRIR
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- BYPASS PANEL -->
+
+<div class="bypass-panel">
+
+<div id="bypassState"
+     class="bypass-state off">
+
+🟠 BYPASS DESATIVADO
+
+</div>
+
+<div class="cmd-row">
+
+<button class="btn-green"
+        onclick="ativarBypass()">
+
+ATIVAR BYPASS
+
+</button>
+
+<button class="btn-orange"
+        onclick="desativarBypass()">
+
+DESATIVAR BYPASS
+
+</button>
+
+</div>
+
+<div id="bypassInfo"
+     class="bypass-info">
+
+Caminho horizontal isolado.
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     EXPLICAÇÃO
+===================================================== -->
+
+<div class="logic-box">
+
+<strong>MODO AUTOMÁTICO:</strong><br>
+
+O QTA monitora a REDE. Na falta da concessionária,
+seleciona automaticamente um GMG disponível.
+No retorno da REDE, retorna a carga para a concessionária.
+
+<br><br>
+
+<strong>MODO MANUAL:</strong><br>
+
+O operador pode comandar individualmente
+DJREDE, DJG1, DJG2 e DJU.
+
+<br><br>
+
+<strong>SELEÇÃO DO GMG:</strong><br>
+
+A seleção automática considera temperatura de trabalho,
+combustível, sinal de disponibilidade e ausência de falha.
+
+<br><br>
+
+<strong>EMERGÊNCIA:</strong><br>
+
+A parada de emergência abre os caminhos de potência
+e desliga os grupos geradores. Após o RESET, o sistema
+verifica primeiro a REDE. Se houver tensão, prioriza a REDE.
+Caso contrário, procura um GMG disponível.
+
+<br><br>
+
+<strong>BYPASS — FUNÇÃO CORRETA:</strong><br>
+
+O BYPASS não é uma fonte de energia e não participa
+do cálculo de paralelismo.
+
+Quando ATIVADO, ele representa um caminho horizontal
+alternativo de alimentação entre a fonte disponível
+e as cargas, permitindo que o caminho principal do QTA/ATS
+seja considerado isolado para manutenção, teste ou contingência.
+
+<br><br>
+
+<strong>BYPASS ATIVO:</strong><br>
+
+FONTE → CAMINHO HORIZONTAL BYPASS → CARGAS.
+
+O QTA/ATS fica fora do caminho principal de alimentação
+representado pelo simulador.
+
+<br><br>
+
+<strong>BYPASS DESATIVADO:</strong><br>
+
+FONTE → QTA/ATS → DJU → CARGAS.
+
+O caminho horizontal do bypass permanece isolado.
+
+<br><br>
+
+<strong>PARALELISMO:</strong><br>
+
+O BYPASS não permite nem representa sincronismo entre
+REDE e GMG. Se REDE, GMG1 ou GMG2 forem conectados
+simultaneamente ao barramento, o simulador gera ERRO FATAL.
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     MONITORAMENTO
+===================================================== -->
+
+<div class="bottom-grid">
+
+<div class="card">
+
+<h2>
+🔐 PERMISSIVAS / MONITORAMENTO
+</h2>
+
+<div class="permissives">
+
+<div id="permEmergency"
+     class="permission ok">
+
+<span class="signal green"></span>
+
+EMERGÊNCIA LIBERADA
+
+</div>
+
+
+<div id="permRede"
+     class="permission ok">
+
+<span class="signal green"></span>
+
+REDE DISPONÍVEL
+
+</div>
+
+
+<div id="permGmg1"
+     class="permission">
+
+<span class="signal"></span>
+
+GMG1 NÃO PRONTO
+
+</div>
+
+
+<div id="permGmg2"
+     class="permission">
+
+<span class="signal"></span>
+
+GMG2 NÃO PRONTO
+
+</div>
+
+
+<div id="permInterlock"
+     class="permission ok">
+
+<span class="signal green"></span>
+
+CONDIÇÃO NORMAL
+
+</div>
+
+
+<div id="permBypass"
+     class="permission">
+
+<span class="signal"></span>
+
+BYPASS DESATIVADO
+
+</div>
+
+
+<div id="permFatal"
+     class="permission ok">
+
+<span class="signal green"></span>
+
+SEM ERRO FATAL
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- TABELA -->
+
+<div class="card">
+
+<h2>
+🔌 ESTADO DOS DISJUNTORES
+</h2>
+
+<table class="breaker-table">
+
+<thead>
+
+<tr>
+
+<th>Disjuntor</th>
+<th>Estado</th>
+<th>Função</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>DJREDE</td>
+
+<td id="tableDJREDE"></td>
+
+<td>Entrada REDE</td>
+
+</tr>
+
+<tr>
+
+<td>DJG1</td>
+
+<td id="tableDJG1"></td>
+
+<td>GMG1</td>
+
+</tr>
+
+<tr>
+
+<td>DJG2</td>
+
+<td id="tableDJG2"></td>
+
+<td>GMG2</td>
+
+</tr>
+
+<tr>
+
+<td>DJU</td>
+
+<td id="tableDJU"></td>
+
+<td>Saída para cargas</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     EVENTOS
+===================================================== -->
+
+<div class="card"
+     style="margin-top:15px">
+
+<h2>
+📋 HISTÓRICO DE EVENTOS
+</h2>
+
+<div id="events"
+     class="events">
+</div>
+
+</div>
+
+</div>
 
 <script>
 
-/* ======================================================
-   ESTADO DO SISTEMA
-====================================================== */
+/* =====================================================
+   ESTADO PRINCIPAL
+===================================================== */
 
-const sistema = {
+const sistema={
 
     redeOK:true,
 
@@ -904,262 +1866,1031 @@ const sistema = {
     gmg1Estavel:false,
     gmg2Estavel:false,
 
+    gmg1Temperatura:72,
+    gmg2Temperatura:68,
+
+    gmg1TempMin:50,
+    gmg1TempMax:95,
+
+    gmg2TempMin:50,
+    gmg2TempMax:95,
+
+    gmg1Combustivel:85,
+    gmg2Combustivel:70,
+
+    gmg1CombMin:15,
+    gmg2CombMin:15,
+
+    gmg1Sinal:true,
+    gmg2Sinal:true,
+
+    /* DISJUNTORES */
+
     djrede:true,
     djg1:false,
     djg2:false,
     dju:true,
 
-    bypass:false,
+    /* BYPASS */
+
+    bypassAtivo:false,
+    bypassFonte:"",
+    bypassAlimentando:false,
+
+    /* SISTEMA */
+
+    emergencia:false,
+
+    modo:"AUTO",
 
     fonte:"REDE",
 
-    emergencia:false
+    erroFatal:false,
+    motivoFatal:"",
+
+    sequencia:"MONITORAMENTO NORMAL",
+
+    partidaAutomaticaEmCurso:false,
+
+    timerAuto:null
 
 };
 
 
-/* ======================================================
+/* =====================================================
    EVENTOS
-====================================================== */
+===================================================== */
 
-function evento(texto,tipo=""){
+function evento(texto,tipo="info"){
 
-    const box =
-        document.getElementById("events");
+    const box=document.getElementById("events");
 
-    const hora =
-        new Date().toLocaleTimeString();
+    const hora=new Date().toLocaleTimeString();
 
-    const div =
-        document.createElement("div");
+    const div=document.createElement("div");
 
-    div.className =
-        "event " +
-        (tipo ? "event-"+tipo : "");
+    div.className="event event-"+tipo;
 
-    div.innerHTML =
-        `<span class="event-time">
-        [${hora}]
-        </span> ${texto}`;
+    div.innerHTML=
+        `<span class="event-time">[${hora}]</span> ${texto}`;
 
     box.prepend(div);
+}
+
+
+/* =====================================================
+   REDE
+===================================================== */
+
+function redeDisponivel(){
+
+    return sistema.redeOK;
 
 }
 
 
-/* ======================================================
-   ATUALIZAÇÃO DA INTERFACE
-====================================================== */
+function fonteRedeEnergizada(){
+
+    return (
+        sistema.redeOK &&
+        sistema.djrede
+    );
+
+}
+
+
+/* =====================================================
+   GMG DISPONÍVEL
+===================================================== */
+
+function gmg1Disponivel(){
+
+    return (
+        !sistema.gmg1Falha &&
+        sistema.gmg1Sinal &&
+        sistema.gmg1Combustivel>=sistema.gmg1CombMin &&
+        sistema.gmg1Temperatura>=sistema.gmg1TempMin &&
+        sistema.gmg1Temperatura<=sistema.gmg1TempMax
+    );
+
+}
+
+
+function gmg2Disponivel(){
+
+    return (
+        !sistema.gmg2Falha &&
+        sistema.gmg2Sinal &&
+        sistema.gmg2Combustivel>=sistema.gmg2CombMin &&
+        sistema.gmg2Temperatura>=sistema.gmg2TempMin &&
+        sistema.gmg2Temperatura<=sistema.gmg2TempMax
+    );
+
+}
+
+
+/* =====================================================
+   GMG ENERGIZADO
+===================================================== */
+
+function fonteGMG1Energizada(){
+
+    return (
+        sistema.gmg1Ligado &&
+        sistema.gmg1Estavel &&
+        !sistema.gmg1Falha &&
+        sistema.djg1
+    );
+
+}
+
+
+function fonteGMG2Energizada(){
+
+    return (
+        sistema.gmg2Ligado &&
+        sistema.gmg2Estavel &&
+        !sistema.gmg2Falha &&
+        sistema.djg2
+    );
+
+}
+
+
+/* =====================================================
+   FONTE ATUAL
+===================================================== */
+
+function calcularFonte(){
+
+    const fontes=[];
+
+    if(fonteRedeEnergizada())
+        fontes.push("REDE");
+
+    if(fonteGMG1Energizada())
+        fontes.push("GMG1");
+
+    if(fonteGMG2Energizada())
+        fontes.push("GMG2");
+
+    if(fontes.length>=2)
+        return "PARALELO";
+
+    if(fontes.length===1)
+        return fontes[0];
+
+    return "SEM FONTE";
+
+}
+
+
+/* =====================================================
+   FONTE DO BYPASS
+===================================================== */
+
+/*
+   O BYPASS NÃO É FONTE.
+
+   Ele apenas conduz a fonte que já está
+   selecionada/disponível.
+*/
+
+function determinarFonteBypass(){
+
+    if(fonteRedeEnergizada())
+        return "REDE";
+
+    if(fonteGMG1Energizada())
+        return "GMG1";
+
+    if(fonteGMG2Energizada())
+        return "GMG2";
+
+    return "";
+
+}
+
+
+/* =====================================================
+   BYPASS ALIMENTANDO
+===================================================== */
+
+function bypassEstaAlimentando(){
+
+    if(!sistema.bypassAtivo)
+        return false;
+
+    if(sistema.erroFatal)
+        return false;
+
+    const fonte=
+        determinarFonteBypass();
+
+    if(!fonte)
+        return false;
+
+    return sistema.dju;
+
+}
+
+
+/* =====================================================
+   SELEÇÃO AUTOMÁTICA
+===================================================== */
+
+function selecionarGMG(){
+
+    const candidatos=[];
+
+    if(gmg1Disponivel())
+        candidatos.push({
+            nome:"GMG1",
+            temperatura:sistema.gmg1Temperatura,
+            combustivel:sistema.gmg1Combustivel
+        });
+
+    if(gmg2Disponivel())
+        candidatos.push({
+            nome:"GMG2",
+            temperatura:sistema.gmg2Temperatura,
+            combustivel:sistema.gmg2Combustivel
+        });
+
+    if(!candidatos.length)
+        return null;
+
+    candidatos.sort((a,b)=>{
+
+        if(a.temperatura!==b.temperatura)
+            return a.temperatura-b.temperatura;
+
+        if(a.combustivel!==b.combustivel)
+            return b.combustivel-a.combustivel;
+
+        return a.nome==="GMG1"? -1:1;
+
+    });
+
+    return candidatos[0].nome;
+
+}
+
+
+/* =====================================================
+   ERRO FATAL
+===================================================== */
+
+function verificarErroFatal(){
+
+    const fontes=[];
+
+    if(fonteRedeEnergizada())
+        fontes.push("REDE");
+
+    if(fonteGMG1Energizada())
+        fontes.push("GMG1");
+
+    if(fonteGMG2Energizada())
+        fontes.push("GMG2");
+
+    if(fontes.length>=2){
+
+        ativarErroFatal(
+            "FONTES ENERGIZADAS SIMULTANEAMENTE: "+
+            fontes.join(" + ")
+        );
+
+        return true;
+
+    }
+
+    return false;
+
+}
+
+
+function ativarErroFatal(motivo){
+
+    if(sistema.erroFatal)
+        return;
+
+    sistema.erroFatal=true;
+
+    sistema.motivoFatal=motivo;
+
+    document.body.classList.add("fatal-active");
+
+    document.getElementById("fatalDetail").innerHTML=`
+
+        <strong>⚡ ${motivo}</strong>
+
+        <br><br>
+
+        O simulador detectou mais de uma fonte
+        energizada conectada ao barramento.
+
+        <br><br>
+
+        <strong>
+        VERIFIQUE DJREDE / DJG1 / DJG2.
+        </strong>
+
+    `;
+
+    document.getElementById("fatalOverlay")
+        .classList.add("active");
+
+    evento(
+        "🚨 ERRO FATAL — "+motivo,
+        "error"
+    );
+
+    atualizar();
+
+}
+
+
+function reconhecerErroFatal(){
+
+    sistema.erroFatal=false;
+
+    sistema.motivoFatal="";
+
+    document.body.classList.remove("fatal-active");
+
+    document.getElementById("fatalOverlay")
+        .classList.remove("active");
+
+    evento(
+        "↻ ALARME FATAL RECONHECIDO / RESETADO",
+        "warning"
+    );
+
+    atualizar();
+
+}
+
+
+/* =====================================================
+   ATUALIZAÇÃO PRINCIPAL
+===================================================== */
 
 function atualizar(){
 
-    /* REDE */
-
-    document.getElementById("redeStatus")
-        .textContent =
-        sistema.redeOK ?
-        "NORMAL" :
-        "FALHA";
-
-    document.getElementById("redeStatus")
-        .className =
-        "status-value " +
-        (sistema.redeOK ? "ok":"off");
+    sistema.fonte=
+        calcularFonte();
 
 
-    document.getElementById("redeFonte")
-        .textContent =
-        sistema.redeOK ?
-        "NORMAL" :
+    /* =========================
+       REDE
+    ========================= */
+
+    const redeStatus=
+        document.getElementById("redeStatus");
+
+    if(sistema.redeOK){
+
+        redeStatus.textContent=
+            "NORMAL — TENSÃO PRESENTE";
+
+        redeStatus.className=
+            "status-value ok";
+
+    }else{
+
+        redeStatus.textContent=
+            "FALHA — SEM TENSÃO";
+
+        redeStatus.className=
+            "status-value off";
+
+    }
+
+
+    const redeFonte=
+        document.getElementById("redeFonte");
+
+    redeFonte.textContent=
+        sistema.redeOK?
+        "NORMAL — TENSÃO PRESENTE":
         "SEM TENSÃO";
 
-    document.getElementById("redeFonte")
-        .className =
-        "source-status " +
-        (sistema.redeOK ? "ok":"off");
+    redeFonte.className=
+        "source-status "+
+        (
+            sistema.redeOK?
+            "ok":
+            "off"
+        );
 
 
-    /* GMG1 */
+    document.getElementById("sourceRede")
+        .classList.toggle(
+            "energized",
+            sistema.redeOK
+        );
 
-    let g1 =
-        sistema.gmg1Falha ?
-        "FALHA" :
-        sistema.gmg1Estavel ?
-        "PRONTO" :
-        sistema.gmg1Ligado ?
-        "PARTINDO" :
-        "STANDBY";
+
+    /* =========================
+       GMG1
+    ========================= */
+
+    let g1;
+
+    if(sistema.gmg1Falha)
+        g1="FALHA";
+
+    else if(sistema.gmg1Estavel)
+        g1="PRONTO — TENSÃO PRESENTE";
+
+    else if(sistema.gmg1Ligado)
+        g1="PARTINDO";
+
+    else if(gmg1Disponivel())
+        g1="STANDBY — DISPONÍVEL";
+
+    else
+        g1="STANDBY — INDISPONÍVEL";
+
 
     document.getElementById("gmg1Status")
-        .textContent = g1;
+        .textContent=g1;
+
+    document.getElementById("gmg1Status")
+        .className=
+        "status-value "+
+        (
+            sistema.gmg1Estavel&&!sistema.gmg1Falha?
+            "ok":
+            sistema.gmg1Falha?
+            "off":
+            gmg1Disponivel()?
+            "warn":
+            "off"
+        );
+
 
     document.getElementById("gmg1Fonte")
-        .textContent = g1;
+        .textContent=g1;
+
+    document.getElementById("gmg1Fonte")
+        .className=
+        "source-status "+
+        (
+            sistema.gmg1Estavel&&!sistema.gmg1Falha?
+            "ok":
+            sistema.gmg1Falha?
+            "off":
+            "warn"
+        );
+
 
     document.getElementById("gmg1GenState")
-        .textContent =
-        sistema.gmg1Ligado ?
-        "MOTOR FUNCIONANDO" :
-        "MOTOR PARADO";
+        .textContent=
+        sistema.gmg1Ligado?
+        `MOTOR FUNCIONANDO • ${sistema.gmg1Temperatura}°C • ${sistema.gmg1Combustivel}%`:
+        `MOTOR PARADO • ${sistema.gmg1Temperatura}°C • ${sistema.gmg1Combustivel}%`;
 
 
-    /* GMG2 */
+    document.getElementById("sourceGMG1")
+        .classList.toggle(
+            "energized",
+            sistema.gmg1Estavel &&
+            !sistema.gmg1Falha
+        );
 
-    let g2 =
-        sistema.gmg2Falha ?
-        "FALHA" :
-        sistema.gmg2Estavel ?
-        "PRONTO" :
-        sistema.gmg2Ligado ?
-        "PARTINDO" :
-        "STANDBY";
+
+    /* =========================
+       GMG2
+    ========================= */
+
+    let g2;
+
+    if(sistema.gmg2Falha)
+        g2="FALHA";
+
+    else if(sistema.gmg2Estavel)
+        g2="PRONTO — TENSÃO PRESENTE";
+
+    else if(sistema.gmg2Ligado)
+        g2="PARTINDO";
+
+    else if(gmg2Disponivel())
+        g2="STANDBY — DISPONÍVEL";
+
+    else
+        g2="STANDBY — INDISPONÍVEL";
+
 
     document.getElementById("gmg2Status")
-        .textContent = g2;
+        .textContent=g2;
+
+    document.getElementById("gmg2Status")
+        .className=
+        "status-value "+
+        (
+            sistema.gmg2Estavel&&!sistema.gmg2Falha?
+            "ok":
+            sistema.gmg2Falha?
+            "off":
+            gmg2Disponivel()?
+            "warn":
+            "off"
+        );
+
 
     document.getElementById("gmg2Fonte")
-        .textContent = g2;
+        .textContent=g2;
+
+    document.getElementById("gmg2Fonte")
+        .className=
+        "source-status "+
+        (
+            sistema.gmg2Estavel&&!sistema.gmg2Falha?
+            "ok":
+            sistema.gmg2Falha?
+            "off":
+            "warn"
+        );
+
 
     document.getElementById("gmg2GenState")
-        .textContent =
-        sistema.gmg2Ligado ?
-        "MOTOR FUNCIONANDO" :
-        "MOTOR PARADO";
+        .textContent=
+        sistema.gmg2Ligado?
+        `MOTOR FUNCIONANDO • ${sistema.gmg2Temperatura}°C • ${sistema.gmg2Combustivel}%`:
+        `MOTOR PARADO • ${sistema.gmg2Temperatura}°C • ${sistema.gmg2Combustivel}%`;
 
 
-    /* FONTE */
+    document.getElementById("sourceGMG2")
+        .classList.toggle(
+            "energized",
+            sistema.gmg2Estavel &&
+            !sistema.gmg2Falha
+        );
+
+
+    /* =========================
+       FONTE
+    ========================= */
 
     document.getElementById("fonteAtual")
-        .textContent =
+        .textContent=
+        sistema.erroFatal?
+        "ERRO FATAL":
         sistema.fonte;
 
+    document.getElementById("fonteAtual")
+        .className=
+        "status-value "+
+        (
+            sistema.erroFatal?
+            "off":
+            sistema.fonte==="SEM FONTE"?
+            "warn":
+            sistema.fonte==="PARALELO"?
+            "off":
+            "ok"
+        );
 
-    /* QTA */
 
-    let estadoQTA =
-        sistema.fonte === "REDE" ?
-        "REDE ALIMENTANDO" :
-        sistema.fonte === "GMG1" ?
-        "GMG1 ALIMENTANDO" :
-        sistema.fonte === "GMG2" ?
-        "GMG2 ALIMENTANDO" :
-        "SEM FONTE";
+    /* =========================
+       QTA
+    ========================= */
+
+    let qtaEstado="SEM FONTE";
+
+    if(sistema.erroFatal)
+
+        qtaEstado=
+            "⚠ ERRO FATAL — PARALELISMO";
+
+    else if(sistema.bypassAtivo){
+
+        const fonteBypass=
+            determinarFonteBypass();
+
+        if(fonteBypass)
+
+            qtaEstado=
+                "BYPASS — "+fonteBypass+" ALIMENTANDO";
+
+        else
+
+            qtaEstado=
+                "BYPASS — SEM FONTE";
+
+    }
+
+    else if(sistema.fonte==="REDE")
+
+        qtaEstado=
+            "REDE ALIMENTANDO";
+
+    else if(sistema.fonte==="GMG1")
+
+        qtaEstado=
+            "GMG1 ALIMENTANDO";
+
+    else if(sistema.fonte==="GMG2")
+
+        qtaEstado=
+            "GMG2 ALIMENTANDO";
+
 
     document.getElementById("qtaEstado")
-        .textContent = estadoQTA;
+        .textContent=qtaEstado;
 
+
+    document.getElementById("qta")
+        .classList.toggle(
+            "bypass-isolated",
+            sistema.bypassAtivo
+        );
+
+
+    /* =========================
+       LÂMPADA QTA
+    ========================= */
+
+    const qtaTemFonte=
+        sistema.fonte!=="SEM FONTE";
 
     document.getElementById("qtaLamp")
         .classList.toggle(
             "active",
-            sistema.fonte !== "SEM FONTE"
+            qtaTemFonte&&!sistema.erroFatal
+        );
+
+    document.getElementById("qtaLamp")
+        .classList.toggle(
+            "fatal",
+            sistema.erroFatal
         );
 
 
-    /* DISJUNTORES */
+    /* =========================
+       DISJUNTORES
+    ========================= */
 
     atualizarBreaker(
         "djrede",
-        sistema.djde,
-        "DJREDE"
+        sistema.djrede
     );
 
     atualizarBreaker(
         "djg1",
-        sistema.djg1,
-        "DJG1"
+        sistema.djg1
     );
 
     atualizarBreaker(
         "djg2",
-        sistema.djg2,
-        "DJG2"
+        sistema.djg2
     );
 
     atualizarBreaker(
         "dju",
-        sistema.dju,
-        "DJU"
+        sistema.dju
     );
 
 
-    /* LINHAS */
+    /* =========================
+       LINHAS DAS FONTES
+    ========================= */
+
+    const redeEnergia=
+        fonteRedeEnergizada();
+
+    const g1Energia=
+        fonteGMG1Energizada();
+
+    const g2Energia=
+        fonteGMG2Energizada();
+
 
     document.getElementById("lineRede")
         .classList.toggle(
             "active",
-            sistema.djde
+            redeEnergia
         );
 
     document.getElementById("lineGMG1")
         .classList.toggle(
             "active",
-            sistema.djg1
+            g1Energia
         );
 
     document.getElementById("lineGMG2")
         .classList.toggle(
             "active",
-            sistema.djg2
+            g2Energia
         );
+
 
     document.getElementById("vertical1")
         .classList.toggle(
             "active",
-            sistema.djg1
+            g1Energia
         );
 
     document.getElementById("vertical2")
         .classList.toggle(
             "active",
-            sistema.djg2
+            g2Energia
         );
+
+
+    /* =================================================
+       CAMINHO NORMAL
+    ================================================= */
+
+    const caminhoNormal=
+        sistema.dju &&
+        sistema.fonte!=="SEM FONTE" &&
+        sistema.fonte!=="PARALELO" &&
+        !sistema.bypassAtivo;
+
+
+    /* =================================================
+       CAMINHO HORIZONTAL DO BYPASS
+    ================================================= */
+
+    const fonteBypass=
+        determinarFonteBypass();
+
+    const caminhoBypass=
+        sistema.bypassAtivo &&
+        sistema.dju &&
+        fonteBypass!=="" &&
+        !sistema.erroFatal;
+
+
+    sistema.bypassFonte=
+        caminhoBypass?
+        fonteBypass:
+        "";
+
+    sistema.bypassAlimentando=
+        caminhoBypass;
+
+
+    /* =================================================
+       CARGA
+    ================================================= */
+
+    const cargaLigada=
+        caminhoNormal||
+        caminhoBypass;
+
 
     document.getElementById("lineOut")
         .classList.toggle(
             "active",
-            sistema.dju &&
-            sistema.fonte !== "SEM FONTE"
+            caminhoNormal
         );
 
 
-    /* CARGAS */
+    document.getElementById("lineBypass")
+        .classList.toggle(
+            "active",
+            caminhoBypass
+        );
 
-    const cargaLigada =
-        sistema.dju &&
-        sistema.fonte !== "SEM FONTE";
+
+    document.getElementById("lineBypass")
+        .classList.toggle(
+            "warn",
+            sistema.bypassAtivo &&
+            !caminhoBypass
+        );
+
+
+    document.getElementById("bypassFeed")
+        .classList.toggle(
+            "active",
+            caminhoBypass
+        );
+
+
+    document.getElementById("cargas")
+        .classList.toggle(
+            "energized",
+            cargaLigada
+        );
+
+
+    document.getElementById("cargas")
+        .classList.toggle(
+            "bypass-load",
+            caminhoBypass
+        );
+
+
+    if(caminhoBypass){
+
+        document.getElementById("cargaStatus")
+            .textContent=
+            "ALIMENTADA VIA BYPASS — "+fonteBypass;
+
+    }
+
+    else if(caminhoNormal){
+
+        document.getElementById("cargaStatus")
+            .textContent=
+            "ALIMENTADA VIA QTA — "+sistema.fonte;
+
+    }
+
+    else{
+
+        document.getElementById("cargaStatus")
+            .textContent=
+            "SEM ALIMENTAÇÃO";
+
+    }
+
 
     document.getElementById("cargaStatus")
-        .textContent =
-        cargaLigada ?
-        "ALIMENTADA" :
-        "SEM ALIMENTAÇÃO";
-
-    document.getElementById("cargaStatus")
-        .className =
-        "source-status " +
-        (cargaLigada ? "ok":"off");
+        .className=
+        "source-status "+
+        (
+            cargaLigada?
+            "ok":
+            "off"
+        );
 
 
-    /* BYPASS */
+    /* =================================================
+       BYPASS VISUAL
+    ================================================= */
 
-    document.getElementById("bypass")
-        .textContent =
-        "BYPASS QTA: " +
-        (sistema.bypass ?
-        "ATIVADO" :
-        "DESATIVADO");
+    const bypass=
+        document.getElementById("bypass");
+
+    bypass.classList.toggle(
+        "active",
+        sistema.bypassAtivo
+    );
+
+    bypass.classList.toggle(
+        "open",
+        !sistema.bypassAtivo
+    );
+
+
+    document.getElementById("bypassSignal")
+        .textContent=
+
+        sistema.bypassAtivo?
+
+        (
+            sistema.bypassAlimentando?
+            "BYPASS ATIVO — ALIMENTANDO CARGA":
+            "BYPASS ATIVO — AGUARDANDO FONTE"
+        ):
+
+        "BYPASS DESATIVADO";
+
+
+    document.getElementById("bypassPath")
+        .textContent=
+
+        sistema.bypassAtivo?
+
+        (
+            sistema.bypassAlimentando?
+            "CAMINHO HORIZONTAL → "+
+            sistema.bypassFonte+
+            " → CARGAS":
+            "CAMINHO HORIZONTAL SEM FONTE"
+        ):
+
+        "CAMINHO HORIZONTAL ISOLADO";
+
+
+    const bs=
+        document.getElementById("bypassState");
+
+    bs.textContent=
+
+        sistema.bypassAtivo?
+
+        (
+            sistema.bypassAlimentando?
+            "🟢 BYPASS ATIVO — CARGA ALIMENTADA":
+            "🟠 BYPASS ATIVO — SEM FONTE"
+        ):
+
+        "🟠 BYPASS DESATIVADO";
+
+
+    bs.className=
+        "bypass-state "+
+        (
+            sistema.bypassAtivo?
+            "on":
+            "off"
+        );
+
+
+    document.getElementById("bypassInfo")
+        .textContent=
+
+        sistema.bypassAtivo?
+
+        (
+            sistema.bypassAlimentando?
+
+            "Caminho horizontal ativo: "+
+            sistema.bypassFonte+
+            " → BYPASS → CARGAS."
+
+            :
+
+            "Bypass ativo, porém nenhuma fonte energizada está disponível."
+        )
+
+        :
+
+        "Caminho horizontal isolado. QTA/ATS em operação normal.";
+
+
+    /* =========================
+       MODO
+    ========================= */
+
+    const modo=
+        sistema.modo==="AUTO"?
+        "AUTOMÁTICO":
+        "MANUAL";
+
+
+    document.getElementById("modoStatus")
+        .textContent=modo;
+
+
+    document.getElementById("modoBox")
+        .textContent=
+        "MODO "+modo;
+
+
+    document.getElementById("modoBox")
+        .className=
+        "mode-indicator "+
+        (
+            sistema.modo==="AUTO"?
+            "auto":
+            "manual"
+        );
+
+
+    /* =========================
+       EMERGÊNCIA
+    ========================= */
+
+    const eb=
+        document.getElementById("emergencyBox");
+
+
+    eb.textContent=
+        sistema.emergencia?
+        "🛑 EMERGÊNCIA ATIVA":
+        "✓ SISTEMA LIBERADO";
+
+
+    eb.className=
+        "emergency-box "+
+        (
+            sistema.emergencia?
+            "active":
+            ""
+        );
+
+
+    document.getElementById("autoSequence")
+        .textContent=
+        "SEQUÊNCIA: "+sistema.sequencia;
+
+
+    atualizarPermissivas();
+
+    atualizarTabela();
+
+    atualizarComandos();
+
+    marcarDisjuntoresFatais();
 
 }
 
 
-/* ======================================================
-   ATUALIZA DISJUNTOR
-====================================================== */
+/* =====================================================
+   ATUALIZAR BREAKER
+===================================================== */
 
-function atualizarBreaker(id,estado,nome){
+function atualizarBreaker(id,estado){
 
-    const el =
+    const el=
         document.getElementById(id);
 
     el.classList.toggle(
@@ -1167,81 +2898,539 @@ function atualizarBreaker(id,estado,nome){
         estado
     );
 
-    const texto =
-        el.querySelector(".breaker-state");
-
-    texto.textContent =
-        estado ?
-        "FECHADO" :
+    el.querySelector(
+        ".breaker-state"
+    ).textContent=
+        estado?
+        "FECHADO":
         "ABERTO";
 
 }
 
 
-/* ======================================================
-   FALHA DE REDE
-====================================================== */
+/* =====================================================
+   TABELA
+===================================================== */
 
-function falhaRede(){
+function estadoTabela(id,estado){
 
-    if(!sistema.redeOK)
-        return;
+    document.getElementById(id)
+        .innerHTML=`
 
-    sistema.redeOK=false;
+        <span class="dot ${estado?"green":""}"></span>
 
-    sistema.djde=false;
+        ${estado?"FECHADO":"ABERTO"}
 
-    evento(
-        "⚠️ FALHA DE REDE DETECTADA",
-        "warning"
-    );
-
-    atualizar();
-
-
-    /* PARTIDA AUTOMÁTICA GMG1 */
-
-    setTimeout(()=>{
-
-        if(
-            !sistema.redeOK &&
-            !sistema.gmg1Falha &&
-            !sistema.emergencia
-        ){
-
-            partirGMG1();
-
-        }
-
-    },2000);
+    `;
 
 }
 
 
-/* ======================================================
-   PARTIDA GMG1
-====================================================== */
+function atualizarTabela(){
 
-function partirGMG1(){
+    estadoTabela(
+        "tableDJREDE",
+        sistema.djrede
+    );
 
-    if(
-        sistema.gmg1Ligado ||
-        sistema.gmg1Falha ||
-        sistema.emergencia
-    )
-        return;
+    estadoTabela(
+        "tableDJG1",
+        sistema.djg1
+    );
 
-    sistema.gmg1Ligado=true;
+    estadoTabela(
+        "tableDJG2",
+        sistema.djg2
+    );
+
+    estadoTabela(
+        "tableDJU",
+        sistema.dju
+    );
+
+}
+
+
+/* =====================================================
+   COMANDOS
+===================================================== */
+
+function atualizarComandos(){
+
+    document.getElementById("cmdStateRede")
+        .textContent=
+        sistema.djrede?
+        "FECHADO":
+        "ABERTO";
+
+
+    document.getElementById("cmdStateG1")
+        .textContent=
+        sistema.djg1?
+        "FECHADO":
+        "ABERTO";
+
+
+    document.getElementById("cmdStateG2")
+        .textContent=
+        sistema.djg2?
+        "FECHADO":
+        "ABERTO";
+
+
+    document.getElementById("cmdStateU")
+        .textContent=
+        sistema.dju?
+        "FECHADO":
+        "ABERTO";
+
+}
+
+
+/* =====================================================
+   PERMISSIVAS
+===================================================== */
+
+function permissao(id,ok,texto){
+
+    const el=
+        document.getElementById(id);
+
+    el.className=
+        "permission "+
+        (
+            ok?
+            "ok":
+            "bad"
+        );
+
+
+    el.innerHTML=`
+
+        <span class="signal ${ok?"green":""}"></span>
+
+        ${texto}
+
+    `;
+
+}
+
+
+function atualizarPermissivas(){
+
+    permissao(
+        "permEmergency",
+        !sistema.emergencia,
+        sistema.emergencia?
+        "EMERGÊNCIA ATIVA":
+        "EMERGÊNCIA LIBERADA"
+    );
+
+
+    permissao(
+        "permRede",
+        sistema.redeOK,
+        sistema.redeOK?
+        "REDE — TENSÃO PRESENTE":
+        "REDE — SEM TENSÃO"
+    );
+
+
+    permissao(
+        "permGmg1",
+        gmg1Disponivel(),
+        gmg1Disponivel()?
+        "GMG1 — DISPONÍVEL":
+        "GMG1 — INDISPONÍVEL"
+    );
+
+
+    permissao(
+        "permGmg2",
+        gmg2Disponivel(),
+        gmg2Disponivel()?
+        "GMG2 — DISPONÍVEL":
+        "GMG2 — INDISPONÍVEL"
+    );
+
+
+    const fontes=[];
+
+    if(fonteRedeEnergizada())
+        fontes.push("REDE");
+
+    if(fonteGMG1Energizada())
+        fontes.push("GMG1");
+
+    if(fonteGMG2Energizada())
+        fontes.push("GMG2");
+
+
+    permissao(
+        "permInterlock",
+        fontes.length<=1,
+        fontes.length<=1?
+        "CONDIÇÃO NORMAL":
+        "⚠ FONTES EM PARALELO — FATAL"
+    );
+
+
+    permissao(
+        "permBypass",
+        sistema.bypassAtivo,
+        sistema.bypassAtivo?
+        (
+            sistema.bypassAlimentando?
+            "BYPASS — ALIMENTANDO CARGA":
+            "BYPASS — SEM FONTE"
+        ):
+        "BYPASS DESATIVADO"
+    );
+
+
+    const fatal=
+        document.getElementById("permFatal");
+
+
+    if(sistema.erroFatal){
+
+        fatal.className=
+            "permission fatal";
+
+        fatal.innerHTML=`
+
+            <span class="signal"></span>
+
+            ⚠ ERRO FATAL ATIVO
+
+        `;
+
+    }else{
+
+        fatal.className=
+            "permission ok";
+
+        fatal.innerHTML=`
+
+            <span class="signal green"></span>
+
+            SEM ERRO FATAL
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   MARCAR DISJUNTORES FATAIS
+===================================================== */
+
+function marcarDisjuntoresFatais(){
+
+    document.getElementById("djrede")
+        .classList.toggle(
+            "fatal",
+            sistema.erroFatal &&
+            fonteRedeEnergizada()
+        );
+
+
+    document.getElementById("djg1")
+        .classList.toggle(
+            "fatal",
+            sistema.erroFatal &&
+            fonteGMG1Energizada()
+        );
+
+
+    document.getElementById("djg2")
+        .classList.toggle(
+            "fatal",
+            sistema.erroFatal &&
+            fonteGMG2Energizada()
+        );
+
+}
+
+
+/* =====================================================
+   DISJUNTORES
+===================================================== */
+
+function comandarDisjuntor(
+    disjuntor,
+    fechar
+){
+
+    if(disjuntor==="DJREDE")
+        sistema.djrede=fechar;
+
+    if(disjuntor==="DJG1")
+        sistema.djg1=fechar;
+
+    if(disjuntor==="DJG2")
+        sistema.djg2=fechar;
+
+    if(disjuntor==="DJU")
+        sistema.dju=fechar;
+
 
     evento(
-        "▶ COMANDO START GMG1",
-        "ok"
+
+        (fechar?"🟢":"🔴")+
+        " COMANDO "+
+        (fechar?"FECHAR ":"ABRIR ")+
+        disjuntor,
+
+        fechar?
+        "ok":
+        "warning"
+
     );
+
+
+    atualizar();
+
+    verificarErroFatal();
+
+}
+
+
+/* =====================================================
+   FALHA REDE
+===================================================== */
+
+function falhaRede(){
+
+    sistema.redeOK=false;
+
+
+    evento(
+        "⚠ FALHA DA REDE — TENSÃO DA CONCESSIONÁRIA AUSENTE",
+        "warning"
+    );
+
 
     atualizar();
 
 
-    /* ESTABILIZAÇÃO */
+    if(
+        sistema.modo==="AUTO" &&
+        !sistema.emergencia
+    ){
+
+        iniciarTransferenciaAutomatica();
+
+    }
+
+}
+
+
+/* =====================================================
+   RESTABELECER REDE
+===================================================== */
+
+function restaurarRede(){
+
+    sistema.redeOK=true;
+
+
+    evento(
+        "✓ REDE RESTABELECIDA — TENSÃO PRESENTE",
+        "ok"
+    );
+
+
+    atualizar();
+
+
+    if(
+        sistema.modo==="AUTO" &&
+        !sistema.emergencia
+    ){
+
+        restaurarPorRedeAutomaticamente();
+
+    }
+
+}
+
+
+/* =====================================================
+   TRANSFERÊNCIA AUTOMÁTICA
+===================================================== */
+
+function iniciarTransferenciaAutomatica(){
+
+    if(sistema.partidaAutomaticaEmCurso)
+        return;
+
+
+    sistema.partidaAutomaticaEmCurso=true;
+
+
+    sistema.sequencia=
+        "FALTA DE REDE — SELECIONANDO GMG";
+
+
+    /*
+       Abre o caminho da REDE antes
+       de conectar qualquer GMG.
+    */
+
+    if(sistema.djrede){
+
+        sistema.djrede=false;
+
+        evento(
+            "🔴 AUTO — DJREDE ABERTO — REDE DESCONECTADA",
+            "warning"
+        );
+
+    }
+
+
+    atualizar();
+
+
+    setTimeout(()=>{
+
+        if(
+            sistema.modo!=="AUTO"||
+            sistema.redeOK||
+            sistema.emergencia
+        ){
+
+            sistema.partidaAutomaticaEmCurso=false;
+
+            sistema.sequencia=
+                "MONITORAMENTO NORMAL";
+
+            atualizar();
+
+            return;
+        }
+
+
+        const escolhido=
+            selecionarGMG();
+
+
+        if(!escolhido){
+
+            sistema.partidaAutomaticaEmCurso=false;
+
+            sistema.sequencia=
+                "SEM GMG DISPONÍVEL";
+
+            evento(
+                "❌ AUTO — NENHUM GMG DISPONÍVEL",
+                "error"
+            );
+
+            atualizar();
+
+            return;
+        }
+
+
+        evento(
+            "🔎 AUTO — GMG SELECIONADO: "+escolhido,
+            "info"
+        );
+
+
+        sistema.sequencia=
+            "PARTIDA AUTOMÁTICA — "+escolhido;
+
+
+        atualizar();
+
+
+        if(escolhido==="GMG1")
+            partirGMG1(true);
+        else
+            partirGMG2(true);
+
+
+    },1500);
+
+}
+
+
+/* =====================================================
+   GMG1
+===================================================== */
+
+function partirGMG1(automatico=false){
+
+    if(sistema.gmg1Falha){
+
+        evento(
+            "⚠ GMG1 NÃO PODE PARTIR — FALHA ATIVA",
+            "warning"
+        );
+
+        return;
+    }
+
+
+    if(!gmg1Disponivel()){
+
+        evento(
+            "⚠ GMG1 NÃO DISPONÍVEL — VERIFIQUE SINAL, TEMPERATURA E COMBUSTÍVEL",
+            "warning"
+        );
+
+
+        if(automatico){
+
+            sistema.partidaAutomaticaEmCurso=false;
+
+            if(gmg2Disponivel())
+                partirGMG2(true);
+
+        }
+
+
+        atualizar();
+
+        return;
+    }
+
+
+    if(sistema.gmg1Ligado){
+
+        evento(
+            "ℹ GMG1 JÁ ESTÁ FUNCIONANDO",
+            "info"
+        );
+
+        return;
+    }
+
+
+    sistema.gmg1Ligado=true;
+
+    sistema.gmg1Estavel=false;
+
+
+    evento(
+        automatico?
+        "▶ AUTO — START GMG1":
+        "▶ START MANUAL GMG1",
+        "ok"
+    );
+
+
+    sistema.sequencia=
+        "GMG1 PARTINDO — AGUARDANDO ESTABILIZAÇÃO";
+
+
+    atualizar();
+
 
     setTimeout(()=>{
 
@@ -1252,12 +3441,28 @@ function partirGMG1(){
 
             sistema.gmg1Estavel=true;
 
+
             evento(
-                "✓ GMG1 estabilizado — tensão e frequência OK",
+                "✓ GMG1 ESTABILIZADO — TENSÃO/FREQUÊNCIA DISPONÍVEL",
                 "ok"
             );
 
-            transferirGMG1();
+
+            sistema.partidaAutomaticaEmCurso=false;
+
+
+            atualizar();
+
+
+            if(
+                sistema.modo==="AUTO" &&
+                !sistema.redeOK &&
+                !sistema.emergencia
+            ){
+
+                transferirGMG1(true);
+
+            }
 
         }
 
@@ -1266,111 +3471,203 @@ function partirGMG1(){
 }
 
 
-/* ======================================================
-   TRANSFERÊNCIA GMG1
-====================================================== */
+/* =====================================================
+   TRANSFERIR GMG1
+===================================================== */
 
-function transferirGMG1(){
+function transferirGMG1(automatico=false){
+
+    if(!sistema.gmg1Estavel){
+
+        evento(
+            "⚠ GMG1 NÃO ESTÁ ESTÁVEL — TRANSFERÊNCIA NÃO REALIZADA",
+            "warning"
+        );
+
+        return;
+    }
+
 
     if(
-        sistema.redeOK ||
-        !sistema.gmg1Estavel ||
-        sistema.gmg1Falha
-    )
+        sistema.redeOK &&
+        automatico
+    ){
+
+        evento(
+            "⚠ AUTO — REDE RETORNOU. TRANSFERÊNCIA PARA GMG1 CANCELADA",
+            "warning"
+        );
+
         return;
+    }
 
 
-    /* INTERTRAVAMENTO */
+    /*
+       Em transferência automática,
+       garante abertura das outras fontes
+       antes de fechar GMG1.
+    */
 
-    sistema.djde=false;
-    sistema.djg2=false;
+    if(automatico){
 
-    /* DJG1 FECHA */
+        sistema.djrede=false;
+        sistema.djg2=false;
+
+    }
+
 
     sistema.djg1=true;
 
-    sistema.dju=true;
-
-    sistema.fonte="GMG1";
 
     evento(
-        "⚡ TRANSFERÊNCIA REALIZADA: GMG1 → CARGAS",
+        automatico?
+        "🟢 AUTO — DJG1 FECHADO — GMG1 CONECTADO":
+        "🟢 DJG1 FECHADO — GMG1 CONECTADO",
         "ok"
     );
 
+
     atualizar();
+
+    verificarErroFatal();
 
 }
 
 
-/* ======================================================
+/* =====================================================
    FALHA GMG1
-====================================================== */
+===================================================== */
 
 function falharGMG1(){
 
     sistema.gmg1Falha=true;
+
     sistema.gmg1Ligado=false;
+
     sistema.gmg1Estavel=false;
 
-    if(sistema.djg1){
+    sistema.djg1=false;
 
-        sistema.djg1=false;
-
-        sistema.fonte="SEM FONTE";
-
-        evento(
-            "❌ DJG1 ABERTO — FALHA GMG1",
-            "error"
-        );
-
-    }
 
     evento(
-        "⚠️ FALHA NO GMG1",
+        "❌ FALHA GMG1 — TENSÃO PERDIDA",
         "error"
     );
+
 
     atualizar();
 
 
-    /* ACIONA GMG2 */
+    if(
+        sistema.modo==="AUTO" &&
+        !sistema.redeOK &&
+        !sistema.emergencia
+    ){
 
-    setTimeout(()=>{
+        evento(
+            "🔄 AUTO — PROCURANDO OUTRA FONTE",
+            "warning"
+        );
 
-        if(
-            !sistema.redeOK &&
-            !sistema.emergencia
-        ){
+        iniciarTransferenciaAutomatica();
 
-            partirGMG2();
-
-        }
-
-    },1500);
+    }
 
 }
 
 
-/* ======================================================
-   PARTIDA GMG2
-====================================================== */
+/* =====================================================
+   PARAR GMG1
+===================================================== */
 
-function partirGMG2(){
+function pararGMG1(){
 
-    if(
-        sistema.gmg2Ligado ||
-        sistema.gmg2Falha ||
-        sistema.emergencia
-    )
+    sistema.djg1=false;
+
+    sistema.gmg1Ligado=false;
+
+    sistema.gmg1Estavel=false;
+
+
+    evento(
+        "■ STOP GMG1 — MOTOR PARADO / DJG1 ABERTO",
+        "info"
+    );
+
+
+    atualizar();
+
+}
+
+
+/* =====================================================
+   GMG2
+===================================================== */
+
+function partirGMG2(automatico=false){
+
+    if(sistema.gmg2Falha){
+
+        evento(
+            "⚠ GMG2 NÃO PODE PARTIR — FALHA ATIVA",
+            "warning"
+        );
+
         return;
+    }
+
+
+    if(!gmg2Disponivel()){
+
+        evento(
+            "⚠ GMG2 NÃO DISPONÍVEL — VERIFIQUE SINAL, TEMPERATURA E COMBUSTÍVEL",
+            "warning"
+        );
+
+
+        if(automatico){
+
+            sistema.partidaAutomaticaEmCurso=false;
+
+            if(gmg1Disponivel())
+                partirGMG1(true);
+
+        }
+
+
+        atualizar();
+
+        return;
+    }
+
+
+    if(sistema.gmg2Ligado){
+
+        evento(
+            "ℹ GMG2 JÁ ESTÁ FUNCIONANDO",
+            "info"
+        );
+
+        return;
+    }
+
 
     sistema.gmg2Ligado=true;
 
+    sistema.gmg2Estavel=false;
+
+
     evento(
-        "▶ COMANDO START GMG2",
+        automatico?
+        "▶ AUTO — START GMG2":
+        "▶ START MANUAL GMG2",
         "ok"
     );
+
+
+    sistema.sequencia=
+        "GMG2 PARTINDO — AGUARDANDO ESTABILIZAÇÃO";
+
 
     atualizar();
 
@@ -1384,12 +3681,28 @@ function partirGMG2(){
 
             sistema.gmg2Estavel=true;
 
+
             evento(
-                "✓ GMG2 estabilizado — tensão e frequência OK",
+                "✓ GMG2 ESTABILIZADO — TENSÃO/FREQUÊNCIA DISPONÍVEL",
                 "ok"
             );
 
-            transferirGMG2();
+
+            sistema.partidaAutomaticaEmCurso=false;
+
+
+            atualizar();
+
+
+            if(
+                sistema.modo==="AUTO" &&
+                !sistema.redeOK &&
+                !sistema.emergencia
+            ){
+
+                transferirGMG2(true);
+
+            }
 
         }
 
@@ -1398,176 +3711,673 @@ function partirGMG2(){
 }
 
 
-/* ======================================================
-   TRANSFERÊNCIA GMG2
-====================================================== */
+/* =====================================================
+   TRANSFERIR GMG2
+===================================================== */
 
-function transferirGMG2(){
+function transferirGMG2(automatico=false){
+
+    if(!sistema.gmg2Estavel){
+
+        evento(
+            "⚠ GMG2 NÃO ESTÁ ESTÁVEL — TRANSFERÊNCIA NÃO REALIZADA",
+            "warning"
+        );
+
+        return;
+    }
+
 
     if(
-        sistema.redeOK ||
-        !sistema.gmg2Estavel ||
-        sistema.gmg2Falha
-    )
+        sistema.redeOK &&
+        automatico
+    ){
+
+        evento(
+            "⚠ AUTO — REDE RETORNOU. TRANSFERÊNCIA PARA GMG2 CANCELADA",
+            "warning"
+        );
+
         return;
+    }
 
 
-    sistema.djde=false;
-    sistema.djg1=false;
+    if(automatico){
+
+        sistema.djrede=false;
+
+        sistema.djg1=false;
+
+    }
+
 
     sistema.djg2=true;
 
-    sistema.dju=true;
-
-    sistema.fonte="GMG2";
 
     evento(
-        "⚡ TRANSFERÊNCIA REALIZADA: GMG2 → CARGAS",
+        automatico?
+        "🟢 AUTO — DJG2 FECHADO — GMG2 CONECTADO":
+        "🟢 DJG2 FECHADO — GMG2 CONECTADO",
         "ok"
     );
 
+
     atualizar();
+
+    verificarErroFatal();
 
 }
 
 
-/* ======================================================
+/* =====================================================
    FALHA GMG2
-====================================================== */
+===================================================== */
 
 function falharGMG2(){
 
     sistema.gmg2Falha=true;
+
     sistema.gmg2Ligado=false;
+
     sistema.gmg2Estavel=false;
 
-    if(sistema.djg2){
+    sistema.djg2=false;
 
-        sistema.djg2=false;
-        sistema.fonte="SEM FONTE";
-
-        evento(
-            "❌ DJG2 ABERTO — FALHA GMG2",
-            "error"
-        );
-
-    }
 
     evento(
-        "⚠️ FALHA NO GMG2",
+        "❌ FALHA GMG2 — TENSÃO PERDIDA",
         "error"
     );
 
+
+    atualizar();
+
+
+    if(
+        sistema.modo==="AUTO" &&
+        !sistema.redeOK &&
+        !sistema.emergencia
+    ){
+
+        iniciarTransferenciaAutomatica();
+
+    }
+
+}
+
+
+/* =====================================================
+   PARAR GMG2
+===================================================== */
+
+function pararGMG2(){
+
+    sistema.djg2=false;
+
+    sistema.gmg2Ligado=false;
+
+    sistema.gmg2Estavel=false;
+
+
+    evento(
+        "■ STOP GMG2 — MOTOR PARADO / DJG2 ABERTO",
+        "info"
+    );
+
+
     atualizar();
 
 }
 
 
-/* ======================================================
-   RESTABELECER REDE
-====================================================== */
+/* =====================================================
+   TRANSFERÊNCIA MANUAL
+===================================================== */
 
-function restaurarRede(){
+function transferirManual(gmg){
 
-    sistema.redeOK=true;
+    if(sistema.modo!=="MANUAL"){
+
+        evento(
+            "⚠ TRANSFERÊNCIA MANUAL — MUDE PRIMEIRO PARA MODO MANUAL",
+            "warning"
+        );
+
+        return;
+    }
+
+
+    if(gmg==="GMG1"){
+
+        if(!sistema.gmg1Estavel){
+
+            evento(
+                "⚠ GMG1 NÃO ESTÁ ESTÁVEL",
+                "warning"
+            );
+
+            return;
+        }
+
+        sistema.djg1=true;
+
+        evento(
+            "🟢 MANUAL — DJG1 FECHADO — GMG1 CONECTADO",
+            "ok"
+        );
+
+    }
+
+
+    if(gmg==="GMG2"){
+
+        if(!sistema.gmg2Estavel){
+
+            evento(
+                "⚠ GMG2 NÃO ESTÁ ESTÁVEL",
+                "warning"
+            );
+
+            return;
+        }
+
+        sistema.djg2=true;
+
+        evento(
+            "🟢 MANUAL — DJG2 FECHADO — GMG2 CONECTADO",
+            "ok"
+        );
+
+    }
+
+
+    atualizar();
+
+    verificarErroFatal();
+
+}
+
+
+/* =====================================================
+   BYPASS
+===================================================== */
+
+function ativarBypass(){
+
+    if(sistema.bypassAtivo){
+
+        evento(
+            "ℹ BYPASS JÁ ESTÁ ATIVO",
+            "info"
+        );
+
+        return;
+    }
+
+
+    sistema.bypassAtivo=true;
+
+
+    const fonte=
+        determinarFonteBypass();
+
+
+    if(fonte){
+
+        sistema.sequencia=
+            "BYPASS ATIVO — CARGA DESVIADA PARA CAMINHO HORIZONTAL";
+
+
+        evento(
+            "🟢 BYPASS ATIVADO — CARGA DESVIADA PELO CAMINHO HORIZONTAL — FONTE: "+fonte,
+            "ok"
+        );
+
+    }else{
+
+        sistema.sequencia=
+            "BYPASS ATIVO — SEM FONTE DISPONÍVEL";
+
+
+        evento(
+            "🟠 BYPASS ATIVADO — CAMINHO HORIZONTAL DISPONÍVEL, PORÉM SEM FONTE",
+            "warning"
+        );
+
+    }
+
+
+    atualizar();
+
+}
+
+
+function desativarBypass(){
+
+    if(!sistema.bypassAtivo){
+
+        evento(
+            "ℹ BYPASS JÁ ESTÁ DESATIVADO",
+            "info"
+        );
+
+        return;
+    }
+
+
+    sistema.bypassAtivo=false;
+
+    sistema.bypassFonte="";
+
+    sistema.bypassAlimentando=false;
+
+
+    sistema.sequencia=
+        "BYPASS DESATIVADO — RETORNO AO CAMINHO NORMAL DO QTA";
+
 
     evento(
-        "✓ REDE RESTABELECIDA — aguardando estabilização",
-        "ok"
+        "🟠 BYPASS DESATIVADO — CAMINHO HORIZONTAL ISOLADO — QTA/ATS EM SERVIÇO",
+        "warning"
     );
+
+
+    atualizar();
+
+}
+
+
+/* =====================================================
+   AUTO / MANUAL
+===================================================== */
+
+function alternarModo(){
+
+    sistema.modo=
+        sistema.modo==="AUTO"?
+        "MANUAL":
+        "AUTO";
+
+
+    evento(
+        sistema.modo==="AUTO"?
+        "🔵 MODO AUTOMÁTICO":
+        "🟠 MODO MANUAL",
+        "info"
+    );
+
+
+    sistema.sequencia=
+        sistema.modo==="AUTO"?
+        "MONITORAMENTO AUTOMÁTICO":
+        "CONTROLE MANUAL PELO OPERADOR";
+
 
     atualizar();
 
 
-    /* TEMPO DE CONFIRMAÇÃO DA REDE */
+    if(
+        sistema.modo==="AUTO" &&
+        !sistema.emergencia
+    ){
+
+        controleAutomatico();
+
+    }
+
+}
+
+
+/* =====================================================
+   CONTROLE AUTOMÁTICO
+===================================================== */
+
+function controleAutomatico(){
+
+    if(sistema.emergencia)
+        return;
+
+
+    if(sistema.redeOK){
+
+        restaurarPorRedeAutomaticamente();
+
+        return;
+    }
+
+
+    const fonte=
+        calcularFonte();
+
+
+    if(
+        fonte==="GMG1"||
+        fonte==="GMG2"
+    ){
+
+        return;
+    }
+
+
+    iniciarTransferenciaAutomatica();
+
+}
+
+
+/* =====================================================
+   RETORNO AUTOMÁTICO PARA REDE
+===================================================== */
+
+function restaurarPorRedeAutomaticamente(){
+
+    if(!sistema.redeOK)
+        return;
+
+
+    sistema.sequencia=
+        "REDE PRESENTE — RESTABELECENDO CARGA";
+
+
+    atualizar();
+
 
     setTimeout(()=>{
 
         if(
-            sistema.redeOK &&
-            !sistema.emergencia
-        ){
+            !sistema.redeOK||
+            sistema.emergencia||
+            sistema.modo!=="AUTO"
+        )
+            return;
 
-            retornarParaRede();
+
+        /*
+           ABERTURA DOS GERADORES
+        */
+
+        if(sistema.djg1){
+
+            sistema.djg1=false;
+
+            evento(
+                "🔴 AUTO — DJG1 ABERTO — RETORNO PARA REDE",
+                "warning"
+            );
 
         }
 
-    },5000);
+
+        if(sistema.djg2){
+
+            sistema.djg2=false;
+
+            evento(
+                "🔴 AUTO — DJG2 ABERTO — RETORNO PARA REDE",
+                "warning"
+            );
+
+        }
+
+
+        /*
+           FECHA REDE
+        */
+
+        sistema.djrede=true;
+
+
+        evento(
+            "🟢 AUTO — DJREDE FECHADO — REDE ALIMENTANDO",
+            "ok"
+        );
+
+
+        sistema.sequencia=
+            "REDE ALIMENTANDO — GMGs EM RESFRIAMENTO";
+
+
+        atualizar();
+
+
+        /*
+           PARADA SIMULADA APÓS RESFRIAMENTO
+        */
+
+        setTimeout(()=>{
+
+            if(
+                sistema.redeOK &&
+                sistema.modo==="AUTO"
+            ){
+
+                if(sistema.gmg1Ligado){
+
+                    sistema.gmg1Ligado=false;
+
+                    sistema.gmg1Estavel=false;
+
+                    evento(
+                        "■ AUTO — GMG1 PARADO APÓS RESFRIAMENTO",
+                        "info"
+                    );
+
+                }
+
+
+                if(sistema.gmg2Ligado){
+
+                    sistema.gmg2Ligado=false;
+
+                    sistema.gmg2Estavel=false;
+
+                    evento(
+                        "■ AUTO — GMG2 PARADO APÓS RESFRIAMENTO",
+                        "info"
+                    );
+
+                }
+
+
+                sistema.sequencia=
+                    "MONITORAMENTO NORMAL";
+
+
+                atualizar();
+
+            }
+
+        },5000);
+
+
+    },2000);
 
 }
 
 
-/* ======================================================
-   RETORNO PARA REDE
-====================================================== */
+/* =====================================================
+   EMERGÊNCIA
+===================================================== */
 
-function retornarParaRede(){
+function emergencia(){
+
+    sistema.emergencia=true;
+
+
+    /*
+       REMOVE TODAS AS FONTES DO BARRAMENTO
+    */
+
+    sistema.djrede=false;
+
+    sistema.djg1=false;
+
+    sistema.djg2=false;
+
+    sistema.dju=false;
+
+
+    sistema.gmg1Ligado=false;
+
+    sistema.gmg2Ligado=false;
+
+    sistema.gmg1Estavel=false;
+
+    sistema.gmg2Estavel=false;
+
+
+    /*
+       BYPASS TAMBÉM É DESATIVADO.
+    */
+
+    sistema.bypassAtivo=false;
+
+    sistema.bypassFonte="";
+
+    sistema.bypassAlimentando=false;
+
+
+    sistema.sequencia=
+        "EMERGÊNCIA — FONTES DESABILITADAS";
+
 
     evento(
-        "↩ RETORNO DA REDE CONFIRMADO",
+        "🛑 PARADA DE EMERGÊNCIA ATIVADA — FONTES DESCONECTADAS",
+        "error"
+    );
+
+
+    atualizar();
+
+}
+
+
+/* =====================================================
+   RESET EMERGÊNCIA
+===================================================== */
+
+function resetEmergencia(){
+
+    if(!sistema.emergencia){
+
+        evento(
+            "ℹ SISTEMA JÁ ESTÁ LIBERADO",
+            "info"
+        );
+
+        return;
+    }
+
+
+    sistema.emergencia=false;
+
+
+    evento(
+        "↻ RESET DE EMERGÊNCIA — INICIANDO RESTABELECIMENTO",
         "ok"
     );
 
 
-    /* ABRIR GERADORES */
-
-    if(sistema.djg1){
-
-        sistema.djg1=false;
-
-        evento(
-            "DJG1 ABERTO"
-        );
-
-    }
-
-    if(sistema.djg2){
-
-        sistema.djg2=false;
-
-        evento(
-            "DJG2 ABERTO"
-        );
-
-    }
+    sistema.sequencia=
+        "RESET — VERIFICANDO REDE";
 
 
-    /* FECHA REDE */
+    atualizar();
+
 
     setTimeout(()=>{
 
-        if(
-            !sistema.djg1 &&
-            !sistema.djg2 &&
-            sistema.redeOK
-        ){
-
-            sistema.djde=true;
-            sistema.dju=true;
-
-            sistema.fonte="REDE";
+        if(sistema.redeOK){
 
             evento(
-                "✓ DJREDE FECHADO — CARGAS TRANSFERIDAS PARA REDE",
+                "✓ RESET — REDE DISPONÍVEL — PRIORIDADE PARA REDE",
                 "ok"
             );
 
+
+            sistema.dju=true;
+
+
+            if(sistema.modo==="AUTO"){
+
+                restaurarPorRedeAutomaticamente();
+
+            }else{
+
+                sistema.djrede=true;
+
+                sistema.sequencia=
+                    "MANUAL — REDE DISPONÍVEL";
+
+                atualizar();
+
+            }
+
+
+            return;
+
+        }
+
+
+        evento(
+            "⚠ RESET — REDE AUSENTE — PROCURANDO GMG",
+            "warning"
+        );
+
+
+        sistema.dju=true;
+
+
+        const escolhido=
+            selecionarGMG();
+
+
+        if(!escolhido){
+
+            sistema.sequencia=
+                "RESET — NENHUMA FONTE DISPONÍVEL";
+
+
+            evento(
+                "❌ RESET — NENHUMA FONTE DISPONÍVEL",
+                "error"
+            );
+
+
             atualizar();
 
+            return;
+        }
 
-            /* RESFRIAMENTO */
 
-            setTimeout(()=>{
+        sistema.sequencia=
+            "RESET — PARTIDA "+escolhido;
 
-                pararGMG1();
-                pararGMG2();
 
-                evento(
-                    "✓ CICLO DE TRANSFERÊNCIA FINALIZADO",
-                    "ok"
-                );
+        atualizar();
 
-            },5000);
+
+        if(sistema.modo==="AUTO"){
+
+            if(escolhido==="GMG1")
+                partirGMG1(true);
+
+            else
+                partirGMG2(true);
+
+        }else{
+
+            evento(
+                "ℹ MANUAL — "+escolhido+
+                " DISPONÍVEL. AGUARDANDO COMANDO DO OPERADOR.",
+                "info"
+            );
+
+
+            sistema.sequencia=
+                "MANUAL — AGUARDANDO PARTIDA";
+
+
+            atualizar();
 
         }
 
@@ -1576,138 +4386,191 @@ function retornarParaRede(){
 }
 
 
-/* ======================================================
-   PARAR GMG1
-====================================================== */
-
-function pararGMG1(){
-
-    sistema.gmg1Ligado=false;
-    sistema.gmg1Estavel=false;
-
-    evento(
-        "■ GMG1 PARADO"
-    );
-
-    atualizar();
-
-}
-
-
-/* ======================================================
-   PARAR GMG2
-====================================================== */
-
-function pararGMG2(){
-
-    sistema.gmg2Ligado=false;
-    sistema.gmg2Estavel=false;
-
-    evento(
-        "■ GMG2 PARADO"
-    );
-
-    atualizar();
-
-}
-
-
-/* ======================================================
-   BYPASS
-====================================================== */
-
-function toggleBypass(){
-
-    sistema.bypass=
-        !sistema.bypass;
-
-    evento(
-        sistema.bypass ?
-        "🔧 BYPASS QTA ATIVADO" :
-        "🔧 BYPASS QTA DESATIVADO",
-        "warning"
-    );
-
-    atualizar();
-
-}
-
-
-/* ======================================================
-   EMERGÊNCIA
-====================================================== */
-
-function emergencia(){
-
-    sistema.emergencia=true;
-
-    sistema.djde=false;
-    sistema.djg1=false;
-    sistema.djg2=false;
-    sistema.dju=false;
-
-    sistema.fonte="SEM FONTE";
-
-    evento(
-        "🛑 PARADA DE EMERGÊNCIA — TODAS AS FONTES BLOQUEADAS",
-        "error"
-    );
-
-    atualizar();
-
-}
-
-
-/* ======================================================
-   RESET
-====================================================== */
+/* =====================================================
+   RESET GERAL
+===================================================== */
 
 function resetSistema(){
 
+    if(sistema.timerAuto)
+        clearTimeout(sistema.timerAuto);
+
+
     sistema.redeOK=true;
+
 
     sistema.gmg1Ligado=false;
     sistema.gmg2Ligado=false;
+
 
     sistema.gmg1Falha=false;
     sistema.gmg2Falha=false;
 
+
     sistema.gmg1Estavel=false;
     sistema.gmg2Estavel=false;
 
-    sistema.djde=true;
+
+    sistema.gmg1Temperatura=72;
+    sistema.gmg2Temperatura=68;
+
+
+    sistema.gmg1Combustivel=85;
+    sistema.gmg2Combustivel=70;
+
+
+    sistema.gmg1Sinal=true;
+    sistema.gmg2Sinal=true;
+
+
+    sistema.djrede=true;
+
     sistema.djg1=false;
+
     sistema.djg2=false;
+
     sistema.dju=true;
 
-    sistema.bypass=false;
 
-    sistema.fonte="REDE";
+    sistema.bypassAtivo=false;
+
+    sistema.bypassFonte="";
+
+    sistema.bypassAlimentando=false;
+
 
     sistema.emergencia=false;
 
+
+    sistema.modo="AUTO";
+
+
+    sistema.erroFatal=false;
+
+    sistema.motivoFatal="";
+
+
+    sistema.partidaAutomaticaEmCurso=false;
+
+
+    sistema.sequencia=
+        "MONITORAMENTO NORMAL";
+
+
+    document.body.classList.remove(
+        "fatal-active"
+    );
+
+
+    document.getElementById(
+        "fatalOverlay"
+    ).classList.remove("active");
+
+
     evento(
-        "↻ SISTEMA RESETADO — REDE ALIMENTANDO AS CARGAS",
+        "↻ RESET GERAL EXECUTADO",
         "ok"
     );
+
+
+    evento(
+        "✓ REDE — TENSÃO PRESENTE",
+        "ok"
+    );
+
+
+    evento(
+        "✓ DJREDE — FECHADO",
+        "ok"
+    );
+
+
+    evento(
+        "✓ DJG1 — ABERTO",
+        "ok"
+    );
+
+
+    evento(
+        "✓ DJG2 — ABERTO",
+        "ok"
+    );
+
+
+    evento(
+        "✓ DJU — FECHADO",
+        "ok"
+    );
+
+
+    evento(
+        "✓ BYPASS — DESATIVADO / CAMINHO HORIZONTAL ISOLADO",
+        "ok"
+    );
+
 
     atualizar();
 
 }
 
 
-/* ======================================================
+/* =====================================================
    INICIALIZAÇÃO
-====================================================== */
+===================================================== */
 
 evento(
-    "✓ Sistema QTA inicializado",
+    "✓ QTA PRO INICIALIZADO",
     "ok"
 );
 
+
 evento(
-    "REDE alimentando cargas"
+    "✓ REDE DA CONCESSIONÁRIA — TENSÃO PRESENTE",
+    "ok"
 );
+
+
+evento(
+    "✓ DJREDE — FECHADO",
+    "ok"
+);
+
+
+evento(
+    "✓ DJG1 — ABERTO",
+    "ok"
+);
+
+
+evento(
+    "✓ DJG2 — ABERTO",
+    "ok"
+);
+
+
+evento(
+    "✓ DJU — FECHADO",
+    "ok"
+);
+
+
+evento(
+    "✓ BYPASS — DESATIVADO / CAMINHO HORIZONTAL ISOLADO",
+    "ok"
+);
+
+
+evento(
+    "✓ MODO AUTOMÁTICO ATIVO",
+    "ok"
+);
+
+
+evento(
+    "✓ MONITORAMENTO DE REDE / GMGs / PARALELISMO ATIVO",
+    "ok"
+);
+
 
 atualizar();
 
